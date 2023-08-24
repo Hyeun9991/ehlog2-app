@@ -35,4 +35,56 @@ export const registerUser = async (req, res, next) => {
   }
 };
 
-export { registerUser };
+export const loginUser = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      throw new Error('존재하지 않는 이메일입니다.');
+    }
+
+    if (await user.comparePassword(password)) {
+      // 사용자 등록에 성공하면 응답으로 사용자 정보와 토큰을 반환
+      return res.status(201).json({
+        _id: user._id,
+        avatar: user.avatar,
+        name: user.name,
+        email: user.email,
+        verified: user.verified,
+        admin: user.admin,
+        token: await user.generateJWT(),
+      });
+    } else {
+      throw new Error('이메일 혹은 비밀번호가 일치하지 않습니다.');
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const userProfile = async (req, res, next) => {
+  try {
+    let user = await User.findById(req.user._id); // authMiddleware
+
+    if (user) {
+      return res.status(201).json({
+        _id: user._id,
+        avatar: user.avatar,
+        name: user.name,
+        email: user.email,
+        verified: user.verified,
+        admin: user.admin,
+      });
+    } else {
+      let error = new Error('사용자를 찾을 수 없습니다.');
+      error.statusCode = 404;
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { registerUser, loginUser };

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { hash } from 'bcryptjs';
+import { hash, compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 const UserSchema = new Schema(
@@ -55,6 +55,14 @@ UserSchema.methods.generateJWT = async function () {
   return await sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: '30d', // 토큰 유효 기간은 30일
   });
+};
+
+// 사용자가 입력한 비밀번호와 저장된 해시된 비밀번호를 비교하는 작업을 수행하는 메서드
+// enteredPassword: 사용자가 입력한 비밀번호
+UserSchema.methods.comparePassword = async function (enteredPassword) {
+  // bcrypt.compare 함수를 사용하여 입력된 비밀번호와 저장된 해시된 비밀번호를 비교
+  // 비밀번호가 일치하면 true를, 일치하지 않으면 false를 반환
+  return await compare(enteredPassword, this.password);
 };
 
 const User = model('User', UserSchema);
