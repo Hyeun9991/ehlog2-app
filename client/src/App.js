@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { changeCount } from './store/actions/countActions';
+import HomePage from './pages/home/HomePage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   const dispatch = useDispatch();
@@ -10,13 +12,16 @@ function App() {
   };
 
   return (
-    <div>
-      <p>{count.number}</p>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+      {/* <p>{count.number}</p>
       <div>
         <button onClick={() => countChangeHandler('DECREASE')}>감소</button>
         <button onClick={() => countChangeHandler('INCREASE')}>증가</button>
-      </div>
-    </div>
+      </div> */}
+    </Router>
   );
 }
 
