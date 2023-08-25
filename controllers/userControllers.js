@@ -1,6 +1,8 @@
+import { uploadPicture } from '../middleware/uploadPictureMiddleware';
 import User from '../models/User';
+import { fileRemover } from '../utils/fileRemover';
 
-export const registerUser = async (req, res, next) => {
+const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
@@ -35,7 +37,7 @@ export const registerUser = async (req, res, next) => {
   }
 };
 
-export const loginUser = async (req, res, next) => {
+const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -64,7 +66,7 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
-export const userProfile = async (req, res, next) => {
+const userProfile = async (req, res, next) => {
   try {
     let user = await User.findById(req.user._id); // authMiddleware
 
@@ -87,4 +89,109 @@ export const userProfile = async (req, res, next) => {
   }
 };
 
-export { registerUser, loginUser };
+const updateProfile = async (req, res, next) => {
+  try {
+    let user = await User.findById(req.user._id);
+
+    if (!user) {
+      throw new Error('사용자를 찾을 수 없습니다.');
+    }
+
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+
+    // 유저가 입력한 비밀번호가 있고, 6글자를 넘지 못했을 때 에러처리
+    if (req.body.password && req.body.password.length < 6) {
+      throw new Error('비밀번호는 6글자 이상이여야 합니다.');
+    } else if (req.body.password) {
+      // 유저가 입력한 비밀번호가 있고 6글자를 넘었을 때 유저의 비밀번호를 업데이트
+      user.password = req.body.password;
+    }
+
+    const updateUserProfile = await user.save();
+
+    res.json({
+      _id: updateUserProfile._id,
+      avatar: updateUserProfile.avatar,
+      name: updateUserProfile.name,
+      email: updateUserProfile.email,
+      verified: updateUserProfile.verified,
+      admin: updateUserProfile.admin,
+      token: await updateUserProfile.generateJWT(),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateProfilePicture = async (req, res, next) => {
+  try {
+    // 'profilePicture' 필드 이름은 클라이언트에서 전송한 파일을 식별하는데 사용됨
+    // 클라이언트가 'profilePicture' 필드로 파일을 전송해야 해당 업로드 설정이 작동함
+    const upload = uploadPicture.single('profilePicture');
+
+    upload(req, res, async function (err) {
+      if (err) {
+        const error = new Error(
+          '파일 업로드 중 알 수 없는 에러가 발생했습니다.' + err.message,
+        );
+        next(error);
+      } else {
+        // 업로드가 성공했을 때
+
+        // 업로드 된 파일이 존재하는지 확인
+        if (req.file) {
+          let filename;
+          let updatedUser = await User.findById(req.user._id); // 현재 사용자 정보를 가져옴
+
+          filename = updatedUser.avatar; // 이전 프로필 사진 파일명 저장
+          if (filename) {
+            fileRemover(filename); // 이전 프로필 사진 파일 삭제 함수 호출
+          }
+
+          updatedUser.avatar = req.file.filename; // 새로운 프로필 사진 파일명으로 업데이트
+          await updatedUser.save(); // 사용자 정보 저장
+
+          res.json({
+            _id: updatedUser._id,
+            avatar: updatedUser.avatar,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            verified: updatedUser.verified,
+            admin: updatedUser.admin,
+            token: await updatedUser.generateJWT(),
+          });
+        } else {
+          // 업로드에 실패했을 때
+          let filename;
+          let updatedUser = await User.findById(req.user._id);
+
+          filename = updatedUser.avatar; // 이전 프로필 사진 파일명 저장
+          updatedUser.avatar = ''; // 프로필 사진을 초기화하고 이전 파일명을 삭제
+          await updatedUser.save(); // 사용자 정보 저장
+          fileRemover(filename); // 이전 프로필 사진 파일 삭제 함수 호출
+
+          res.json({
+            _id: updatedUser._id,
+            avatar: updatedUser.avatar,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            verified: updatedUser.verified,
+            admin: updatedUser.admin,
+            token: await updatedUser.generateJWT(),
+          });
+        }
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  registerUser,
+  loginUser,
+  userProfile,
+  updateProfile,
+  updateProfilePicture,
+};
