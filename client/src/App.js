@@ -1,26 +1,16 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { changeCount } from './store/actions/countActions';
-import HomePage from './pages/home/HomePage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/home/HomePage';
+import RegisterPage from './pages/register/RegisterPage';
+import ArticleDetailPage from './pages/articleDetail/ArticleDetailPage';
 
 function App() {
-  const dispatch = useDispatch();
-  const count = useSelector((state) => state.count);
-
-  const countChangeHandler = (type) => {
-    dispatch(changeCount(type));
-  };
-
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/blog/:id" element={<ArticleDetailPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
-      {/* <p>{count.number}</p>
-      <div>
-        <button onClick={() => countChangeHandler('DECREASE')}>감소</button>
-        <button onClick={() => countChangeHandler('INCREASE')}>증가</button>
-      </div> */}
     </Router>
   );
 }
