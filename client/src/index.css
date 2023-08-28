@@ -8,14 +8,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: #f2f2e9; */
-  /* background-color: #fafaf4; */
-  background-color: #f3f3e8;
-  background-color: #ffffff;
 }
 
 @layer components {
   .main-container {
-    @apply container mx-auto px-4 lg:px-0 lg:w-[900px];
+    @apply container mx-auto px-4 lg:px-0 lg:w-[800px];
   }
 }
