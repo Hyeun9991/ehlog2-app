@@ -63,7 +63,7 @@ const Header = () => {
           </ul>
 
           {/* Sign in Button */}
-          <button className="px-8 py-2 text-xs text-[#151515] transition-all bg-[#eeeeee] rounded-full hover:px-9 hover:font-semibold">
+          <button className="px-8 py-2 text-xs text-[#151515] uppercase transition-all bg-[#eeeeee] rounded-full hover:px-9 hover:font-semibold">
             <Link to="/login">Sign in</Link>
           </button>
         </nav>

@@ -24,7 +24,7 @@ export const contactLists = [
   },
   {
     id: 2,
-    name: 'github',
+    name: 'Github',
     to: 'https://github.com/Hyeun9991',
   },
 ];
