@@ -8,18 +8,14 @@ import {
 
 const HomeHeader = () => {
   return (
-    <section className="pb-4">
-      {/* line */}
-      <div className="py-2 text-xs text-[#eeeeee] bg-black font-CrimsonPro">
-        <div className="main-container">
-          <ul className="flex items-center justify-end gap-6">
+    <section className="mb-8">
+      {/* line header */}
+      <div className="py-1.5 bg-bgColor-dark mb-4">
+        <div className="container px-4 mx-auto">
+          <ul className="flex items-center justify-end gap-6 text-xs uppercase text-textColor-dark">
             {contactLists.map((item) => (
               <li key={item.id}>
-                <Link
-                  to={item.to}
-                  target="_blank"
-                  className="transition-all opacity-70 hover:opacity-100 hover:font-sans hover:font-semibold"
-                >
+                <Link to={item.to} target="_blank" className="hover-text">
                   {item.name}
                 </Link>
               </li>
@@ -28,47 +24,31 @@ const HomeHeader = () => {
         </div>
       </div>
 
-      {/* header banner? */}
+      {/* header banner */}
       <div className="flex items-end justify-between pt-4 main-container">
         {/* Logo */}
-        <Link to="/" className="font-CrimsonPro">
-          <img
-            src={images.BlackLogo}
-            alt="logo"
-            className="transition-all hover:scale-110"
-          />
-          <div className="ml-3">
-            <p className="tracking-widest">EUNHYE, eunhye ·</p>
-            <p className="text-xs opacity-70">Blog on Frontend Developer</p>
+        <Link to="/">
+          <img src={images.BlackLogo} alt="logo" className="hover-logo" />
+          <div className="ml-3 text-textColor-light">
+            <p className="logo-text">EUNHYE, eunhye ·</p>
+            <p className="text-xs additional-text">
+              Blog on Frontend Developer
+            </p>
           </div>
         </Link>
         {/* Menu */}
-        <ul className="flex flex-col items-end justify-end gap-3 mx-3 text-sm uppercase">
-          {menuLists.map((item) => (
-            <li key={item.id}>
-              <Link
-                to={item.to}
-                className="transition-all opacity-70 hover:opacity-100 hover:font-semibold"
-              >
-                {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        {/* <ul className="flex flex-col gap-4 text-xs uppercase md:flex-row md:items-center md:gap-10">
-          {menuLists.map((item) => (
-            <li key={item.id}>
-              <Link
-                to={item.to}
-                className="transition-all opacity-70 hover:opacity-100 hover:font-semibold"
-              >
-                {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul> */}
-        {/* <div className="flex flex-col gap-4 px-3 md:items-center md:flex-row md:gap-14">
-        </div> */}
+        <div className="flex flex-col items-end gap-1 mx-3 mb-3 text-xs uppercase">
+          <p className="mx-2 additional-text text-textColor-light">menu</p>
+          <ul className="flex flex-col items-end justify-center gap-3 text-xs uppercase bg-black hover-logo w-[100px] h-[100px] p-2 rounded text-textColor-dark">
+            {menuLists.map((item) => (
+              <li key={item.id}>
+                <Link to={item.to} className="hover-text">
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

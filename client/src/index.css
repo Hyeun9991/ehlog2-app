@@ -11,7 +11,42 @@ body {
 }
 
 @layer components {
+  /* Containers */
   .main-container {
     @apply container mx-auto px-4 lg:px-0 lg:w-[800px];
+  }
+
+  /* Text */
+  .logo-text {
+    @apply tracking-widest font-CrimsonPro;
+  }
+  .additional-text {
+    @apply font-light opacity-60;
+  }
+  .title-xl {
+    @apply text-2xl font-bold text-textColor-light;
+  }
+
+  /* Hover Effect */
+  .hover-text {
+    @apply transition-all opacity-70 hover:opacity-100 hover:font-semibold;
+  }
+  .hover-logo {
+    @apply transition-all hover:scale-110;
+  }
+  .hover-link {
+    @apply text-xs transition-all text-textColor-light/70 hover:text-textColor-light hover:underline hover:font-semibold;
+  }
+
+  /* Buttons */
+  .main-button {
+    @apply px-8 py-3 text-xs uppercase transition-all rounded-sm text-textColor-dark bg-bgColor-dark hover:px-9 hover:font-semibold;
+  }
+  .main-button-white {
+    @apply px-8 py-2 text-xs uppercase transition-all rounded-sm text-textColor-light bg-[#fafafa] hover:px-9 hover:font-semibold;
+  }
+  .main-button:disabled:hover {
+    /* hover 효과가 없도록 스타일 설정 */
+    @apply hover:px-8 hover:font-normal;
   }
 }

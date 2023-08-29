@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <Layout className="min-h-screen">
       <HomeHeader />
-      <main className="main-container">
+      <main className="main-container bg-bgColor-light">
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
           animi unde quia! Officia earum nobis ratione dolorem voluptate culpa

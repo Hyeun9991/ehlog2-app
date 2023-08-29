@@ -13,14 +13,10 @@ const Footer = () => {
         </p>
 
         {/* Contact Lists */}
-        <ul className="flex items-center gap-6 md:gap-10 transition-all uppercase text-xs text-[#eeeeee]">
+        <ul className="flex items-center gap-6 text-xs uppercase transition-all md:gap-10 text-textColor-dark">
           {contactLists.map((item) => (
             <li key={item.id}>
-              <Link
-                to={item.to}
-                className="transition-all opacity-70 hover:opacity-100 hover:font-sans hover:font-semibold"
-                target="_blank"
-              >
+              <Link to={item.to} className="hover-text" target="_blank">
                 {item.name}
               </Link>
             </li>
@@ -28,13 +24,15 @@ const Footer = () => {
         </ul>
 
         {/* Logo */}
-        <Link to="/" className="text-[#eeeeee] text-sm font-CrimsonPro">
+        <Link to="/">
           <img
             src={images.LightSmallLogo}
             alt="logo"
             className="transition-all hover:scale-110"
           />
-          <p className="ml-1 tracking-widest">EUNHYE, eunhye ·</p>
+          <p className="ml-1 text-sm logo-text text-textColor-dark">
+            EUNHYE, eunhye ·
+          </p>
         </Link>
       </footer>
     </section>

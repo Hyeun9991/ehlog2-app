@@ -9,7 +9,7 @@ module.exports = {
       },
       colors: {
         bgColor: {
-          light: '#ffffff',
+          light: '#fafafa',
           dark: '#151515',
         },
         textColor: {
