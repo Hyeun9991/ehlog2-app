@@ -2,8 +2,25 @@ import React from 'react';
 import Layout from '../../components/Layout/Layout';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { signup } from '../../services/index/users';
+import { toast } from 'react-hot-toast';
 
 const RegisterPage = () => {
+  const { mutate, isLoading } = useMutation({
+    // mutationFn: 사용자가 제출한 정보를 바탕으로 회원 가입 함수 호출
+    mutationFn: ({ name, email, password }) => {
+      return signup({ name, email, password });
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -22,7 +39,10 @@ const RegisterPage = () => {
   const password = watch('password');
 
   const submitHandler = (data) => {
-    console.log(data);
+    const { name, email, password } = data;
+
+    // useMutation 훅의 mutate 함수를 호출하여 회원 가입 실행
+    mutate({ name, email, password });
   };
 
   return (
@@ -158,7 +178,7 @@ const RegisterPage = () => {
           <button
             type="submit"
             className="main-button disabled:opacity-70 disabled:cursor-not-allowed"
-            disabled={!isValid}
+            disabled={!isValid || isLoading}
           >
             Register
           </button>
