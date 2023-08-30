@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { menuLists } from './menuLists';
 import SideBar from './SideBar';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,6 +7,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { logout } from '../../../store/actions/user';
 
 const Header2 = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
 
@@ -47,7 +48,7 @@ const Header2 = () => {
                     onClick={() => setProfileDropdown(!profileDropdown)}
                     className="flex items-center px-4 py-2 transition-all gap-x-2 opacity-90 hover:opacity-100"
                   >
-                    <span className="text-xs uppercase">Profile</span>
+                    <span className="text-xs uppercase">Account</span>
                     <MdKeyboardArrowDown />
                   </button>
 
@@ -59,15 +60,15 @@ const Header2 = () => {
                     <ul className="flex flex-col overflow-hidden text-xs text-center gap-y-3 md:bg-transparent text-textColor-light">
                       <button
                         type="button"
-                        onClick={logoutHandler}
                         className="uppercase hover-text"
+                        onClick={() => navigate('/profile')}
                       >
-                        Dashboard
+                        Profile
                       </button>
                       <button
                         type="button"
-                        onClick={logoutHandler}
                         className="uppercase hover-text"
+                        onClick={logoutHandler}
                       >
                         Logout
                       </button>
@@ -77,10 +78,15 @@ const Header2 = () => {
               </div>
             </div>
           ) : (
-            <button className="py-2 main-button">
+            <>
               {/* Sign in Button */}
-              <Link to="/login">Sign in</Link>
-            </button>
+              <button
+                onClick={() => navigate('/login')}
+                className="py-2 uppercase main-button"
+              >
+                Sign in
+              </button>
+            </>
           )}
         </nav>
 
