@@ -1,25 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout from '../../components/Layout/Layout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { signup } from '../../services/index/users';
 import { toast } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../../store/reducers/userReducers';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
+
+  // useMutation 훅을 사용하여 API 호출과 관련된 로직을 처리
   const { mutate, isLoading } = useMutation({
-    // mutationFn: 사용자가 제출한 정보를 바탕으로 회원 가입 함수 호출
+    // 사용자가 제출한 정보를 바탕으로 회원 가입 함수 호출
     mutationFn: ({ name, email, password }) => {
       return signup({ name, email, password });
     },
     onSuccess: (data) => {
-      console.log(data);
+      dispatch(userActions.setUserInfo(data)); // 사용자 정보 업데이트 액션 디스패치
+      localStorage.setItem('account', JSON.stringify(data)); // 로컬 스토리지에 사용자 정보 저장
     },
     onError: (error) => {
       toast.error(error.message);
       console.log(error);
     },
   });
+
+  useEffect(() => {
+    if (userState.userInfo) {
+      navigate('/');
+    }
+  }, [navigate, userState.userInfo]);
 
   const {
     register,
