@@ -4,9 +4,9 @@ import HomeHeader from './container/HomeHeader';
 
 const HomePage = () => {
   return (
-    <Layout className="min-h-screen">
+    <Layout className="flex flex-col min-h-screen gap-10 bg-bgColor-light">
       <HomeHeader />
-      <main className="main-container bg-bgColor-light">
+      <main className="main-container">
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
           animi unde quia! Officia earum nobis ratione dolorem voluptate culpa

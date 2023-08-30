@@ -183,11 +183,6 @@ const RegisterPage = () => {
             )}
           </div>
 
-          {/* forget password link */}
-          <Link to="/forget-password" className="hover-link">
-            Forget password?
-          </Link>
-
           {/* submit button */}
           <button
             type="submit"
@@ -197,13 +192,20 @@ const RegisterPage = () => {
             Register
           </button>
 
-          {/* login link */}
-          <p className="text-xs text-textColor-light/70">
-            You have an account?{' '}
-            <Link to="/login" className="hover-link">
-              Login now
-            </Link>
-          </p>
+          <div className="flex flex-col gap-1.5">
+            {/* forget password link */}
+            {/* <Link to="/forget-password" className="hover-link">
+              Forget password?
+            </Link> */}
+
+            {/* login link */}
+            <p className="text-xs text-textColor-light/70">
+              You have an account?{' '}
+              <Link to="/login" className="hover-link">
+                Login now
+              </Link>
+            </p>
+          </div>
         </form>
       </section>
     </Layout>

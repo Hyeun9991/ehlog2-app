@@ -8,7 +8,7 @@ const Footer = () => {
     <section className="py-6 md:py-2.5 bg-black">
       <footer className="container flex flex-col-reverse items-center justify-between gap-6 px-4 mx-auto md:flex-row">
         {/* Last Update */}
-        <p className="text-xs uppercase text-textColor-dark opacity-70">
+        <p className="text-xs uppercase text-textColor-dark opacity-90">
           Last Update 2023.08.28
         </p>
 

@@ -8,6 +8,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
 }
 
 @layer components {
@@ -29,21 +30,21 @@ body {
 
   /* Hover Effect */
   .hover-text {
-    @apply transition-all opacity-70 hover:opacity-100 hover:font-semibold;
+    @apply transition-all opacity-90 hover:opacity-100;
   }
   .hover-logo {
     @apply transition-all hover:scale-110;
   }
   .hover-link {
-    @apply text-xs transition-all text-textColor-light/70 hover:text-textColor-light hover:underline hover:font-semibold;
+    @apply text-xs transition-all text-textColor-light/70 hover:text-textColor-light hover:underline;
   }
 
   /* Buttons */
   .main-button {
-    @apply px-8 py-3 text-xs uppercase transition-all rounded-sm text-textColor-dark bg-bgColor-dark hover:px-9 hover:font-semibold;
+    @apply px-8 py-3 text-xs uppercase transition-all rounded-sm text-textColor-dark/90 hover:text-textColor-dark bg-bgColor-dark hover:px-9;
   }
   .main-button-white {
-    @apply px-8 py-2 text-xs uppercase transition-all rounded-sm text-textColor-light bg-[#fafafa] hover:px-9 hover:font-semibold;
+    @apply px-8 py-2 text-xs uppercase transition-all rounded-sm text-textColor-light bg-[#fafafa] hover:px-9;
   }
   .main-button:disabled:hover {
     /* hover 효과가 없도록 스타일 설정 */

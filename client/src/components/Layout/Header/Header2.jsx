@@ -1,23 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { menuLists } from './menuLists';
 import SideBar from './SideBar';
+import { useSelector, useDispatch } from 'react-redux';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import { logout } from '../../../store/actions/user';
 
 const Header2 = () => {
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
+
+  const [profileDropdown, setProfileDropdown] = useState(false);
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+
   return (
-    <section className="z-50 bg-bgColor-dark/70 hover:bg-bgColor-dark backdrop-blur-2xl fixed left-0 py-2.5 w-full transition-all duration-300">
-      <header className="container flex items-center justify-between px-4 mx-auto">
+    <section className="fixed left-0 z-50 w-full h-[44px] transition-all duration-300 bg-bgColor-light/70 hover:bg-bgColor-light backdrop-blur-2xl">
+      <header className="container flex items-center justify-between h-full px-4 mx-auto">
         {/* Logo */}
-        <h1 className="text-sm text-textColor-dark">
+        <h1 className="text-sm text-textColor-light">
           <Link to="/" className="logo-text">
             EUNHYE, eunhye ·
           </Link>
         </h1>
 
         {/* Left Section */}
-        <nav className="items-center hidden gap-10 md:flex">
+        <nav className="items-center hidden gap-6 md:flex">
           {/* Menu Lists */}
-          <ul className="flex items-center gap-10 text-xs uppercase text-textColor-dark">
+          <ul className="flex items-center gap-10 text-xs uppercase text-textColor-light">
             {menuLists.map((item) => (
               <li key={item.id}>
                 <Link to={item.to} className="hover-text">
@@ -27,10 +39,49 @@ const Header2 = () => {
             ))}
           </ul>
 
-          {/* Sign in Button */}
-          <button className="main-button-white">
-            <Link to="/login">Sign in</Link>
-          </button>
+          {userState.userInfo ? (
+            <div className="flex flex-col items-center gap-y-5 gap-x-2">
+              <div className="relative group">
+                <div className="flex flex-col items-center text-textColor-light">
+                  <button
+                    onClick={() => setProfileDropdown(!profileDropdown)}
+                    className="flex items-center px-4 py-2 transition-all gap-x-2 opacity-90 hover:opacity-100"
+                  >
+                    <span className="text-xs uppercase">Profile</span>
+                    <MdKeyboardArrowDown />
+                  </button>
+
+                  <div
+                    className={`${
+                      profileDropdown ? 'block' : 'hidden'
+                    } bg-bgColor-light lg:hidden transition-all duration-300 rounded-b-sm md:absolute md:bottom-0 md:right-0 md:transform md:translate-y-full md:group-hover:block w-full py-4`}
+                  >
+                    <ul className="flex flex-col overflow-hidden text-xs text-center gap-y-3 md:bg-transparent text-textColor-light">
+                      <button
+                        type="button"
+                        onClick={logoutHandler}
+                        className="uppercase hover-text"
+                      >
+                        Dashboard
+                      </button>
+                      <button
+                        type="button"
+                        onClick={logoutHandler}
+                        className="uppercase hover-text"
+                      >
+                        Logout
+                      </button>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <button className="py-2 main-button">
+              {/* Sign in Button */}
+              <Link to="/login">Sign in</Link>
+            </button>
+          )}
         </nav>
 
         {/* Side Bar */}

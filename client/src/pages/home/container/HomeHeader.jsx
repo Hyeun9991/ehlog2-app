@@ -8,7 +8,7 @@ import {
 
 const HomeHeader = () => {
   return (
-    <section className="mb-8">
+    <section className="pt-[44px]">
       {/* line header */}
       <div className="py-1.5 bg-bgColor-dark mb-4">
         <div className="container px-4 mx-auto">
@@ -25,7 +25,7 @@ const HomeHeader = () => {
       </div>
 
       {/* header banner */}
-      <div className="flex items-end justify-between pt-4 main-container">
+      <div className="flex items-end justify-between main-container">
         {/* Logo */}
         <Link to="/">
           <img src={images.BlackLogo} alt="logo" className="hover-logo" />
