@@ -63,7 +63,7 @@ const Header2 = () => {
                         className="uppercase hover-text"
                         onClick={() => navigate('/profile')}
                       >
-                        Profile
+                        Profile Page
                       </button>
                       <button
                         type="button"

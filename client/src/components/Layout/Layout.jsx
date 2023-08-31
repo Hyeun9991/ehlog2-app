@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from './Header/Header';
 import Header2 from './Header/Header2';
 import Footer from './Footer';
 
@@ -8,7 +7,9 @@ const Layout = ({ children, className }) => {
     <div>
       {/* <Header /> */}
       <Header2 />
-      <main className={className}>{children}</main>
+      <main className={`${className} bg-bgColor-light dark:bg-bgColor-dark`}>
+        {children}
+      </main>
       <Footer />
     </div>
   );

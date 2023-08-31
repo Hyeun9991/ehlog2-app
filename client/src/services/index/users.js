@@ -1,11 +1,9 @@
 import axios from 'axios';
 
+// 성공적으로 API 응답이 도착하면 { data } 로부터 응답 데이터를 추출하여 반환
+
 export const signup = async ({ name, email, password }) => {
   try {
-    /**
-     * API 앤드포인트로 POST 요청 보냄, 이름, 이메일, 비밀번호를 데이터로 전송
-     * 성공적으로 API 응답이 도착하면 { data } 로부터 응답 데이터를 추출하여 반환
-     */
     const { data } = await axios.post('/api/users/register', {
       name,
       email,
@@ -30,6 +28,25 @@ export const login = async ({ email, password }) => {
       email,
       password,
     });
+
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message);
+
+    throw new Error(error.message);
+  }
+};
+
+export const getUserProfile = async ({ token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get('/api/users/profile', config);
 
     return data;
   } catch (error) {

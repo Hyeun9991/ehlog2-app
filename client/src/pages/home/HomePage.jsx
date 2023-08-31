@@ -4,7 +4,7 @@ import HomeHeader from './container/HomeHeader';
 
 const HomePage = () => {
   return (
-    <Layout className="flex flex-col min-h-screen gap-10 bg-bgColor-light">
+    <Layout className="flex flex-col min-h-screen gap-10">
       <HomeHeader />
       <main className="main-container">
         <p>
