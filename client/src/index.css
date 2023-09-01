@@ -24,6 +24,9 @@ body {
   .additional-text {
     @apply font-light opacity-60;
   }
+  .title-2xl {
+    @apply text-2xl font-bold text-textColor-light;
+  }
   .title-xl {
     @apply text-2xl font-bold text-textColor-light;
   }

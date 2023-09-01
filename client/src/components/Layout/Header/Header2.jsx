@@ -46,9 +46,9 @@ const Header2 = () => {
                 <div className="flex flex-col items-center text-textColor-light">
                   <button
                     onClick={() => setProfileDropdown(!profileDropdown)}
-                    className="flex items-center px-4 py-2 transition-all gap-x-2 opacity-90 hover:opacity-100"
+                    className="flex items-center px-4 py-2 transition-all gap-x-1 opacity-90 hover:opacity-100"
                   >
-                    <span className="text-xs uppercase">Account</span>
+                    <span className="text-xs uppercase">계정</span>
                     <MdKeyboardArrowDown />
                   </button>
 
@@ -57,20 +57,20 @@ const Header2 = () => {
                       profileDropdown ? 'block' : 'hidden'
                     } bg-bgColor-light lg:hidden transition-all duration-300 rounded-b-sm md:absolute md:bottom-0 md:right-0 md:transform md:translate-y-full md:group-hover:block w-full py-4`}
                   >
-                    <ul className="flex flex-col overflow-hidden text-xs text-center gap-y-3 md:bg-transparent text-textColor-light">
+                    <ul className="flex flex-col overflow-hidden text-xs text-center gap-y-4 md:bg-transparent text-textColor-light">
                       <button
                         type="button"
                         className="uppercase hover-text"
                         onClick={() => navigate('/profile')}
                       >
-                        Profile Page
+                        프로필
                       </button>
                       <button
                         type="button"
                         className="uppercase hover-text"
                         onClick={logoutHandler}
                       >
-                        Logout
+                        로그아웃
                       </button>
                     </ul>
                   </div>
@@ -84,7 +84,7 @@ const Header2 = () => {
                 onClick={() => navigate('/login')}
                 className="py-2 uppercase main-button"
               >
-                Sign in
+                로그인
               </button>
             </>
           )}

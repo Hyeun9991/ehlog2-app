@@ -7,6 +7,7 @@ import { signup } from '../../services/index/users';
 import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../store/reducers/userReducers';
+import { images } from '../../constants';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -61,8 +62,18 @@ const RegisterPage = () => {
 
   return (
     <Layout className="flex items-center justify-center min-h-screen">
-      <section className="flex flex-col items-center justify-center gap-7 main-container">
-        <h1 className="title-xl">Sign Up</h1>
+      <section className="flex flex-col items-center justify-center gap-4 main-container">
+        <div className="flex flex-col items-center gap-2">
+          <Link to="/" className="mb-3">
+            <img
+              src={images.BlackSmallLogo}
+              alt="logo"
+              className="hover-logo"
+            />
+            <h1 className="ml-1 text-sm logo-text">EUNHYE, eunhye ·</h1>
+          </Link>
+          <h2 className="title-xl">회원가입</h2>
+        </div>
         <form
           className="w-full sm:w-[320px] flex flex-col gap-4"
           onSubmit={handleSubmit(submitHandler)}
@@ -70,7 +81,7 @@ const RegisterPage = () => {
           {/* name */}
           <div className="flex flex-col gap-2 text-textColor-light">
             <label htmlFor="name" className="text-xs opacity-70">
-              Name
+              이름
             </label>
             <input
               type="text"
@@ -88,7 +99,7 @@ const RegisterPage = () => {
               className={`p-3 py-2 text-sm font-semibold transition-all border rounded-sm outline-none focus:border-2 border-black/30 focus:border-black placeholder:font-light ${
                 errors.name ? 'border-red-500' : ''
               }`}
-              placeholder="Enter Name"
+              placeholder="이름을 입력하세요."
             />
             {errors.name?.message && (
               <p className="text-xs text-red-500">{errors.name.message}</p>
@@ -98,7 +109,7 @@ const RegisterPage = () => {
           {/* email */}
           <div className="flex flex-col gap-2 text-textColor-light">
             <label htmlFor="email" className="text-xs opacity-70">
-              Email
+              이메일
             </label>
             <input
               type="email"
@@ -117,7 +128,7 @@ const RegisterPage = () => {
               className={`p-3 py-2 text-sm font-semibold transition-all border rounded-sm outline-none focus:border-2 border-black/30 focus:border-black placeholder:font-light ${
                 errors.email ? 'border-red-500' : ''
               }`}
-              placeholder="Enter Email"
+              placeholder="이메일을 입력하세요."
             />
             {errors.email?.message && (
               <p className="text-xs text-red-500">{errors.email.message}</p>
@@ -127,7 +138,7 @@ const RegisterPage = () => {
           {/* password */}
           <div className="flex flex-col gap-2 text-textColor-light">
             <label htmlFor="password" className="text-xs opacity-70">
-              Password
+              비밀번호
             </label>
             <input
               type="password"
@@ -145,7 +156,7 @@ const RegisterPage = () => {
               className={`p-3 py-2 text-sm font-semibold transition-all border rounded-sm outline-none focus:border-2 border-black/30 focus:border-black placeholder:font-light ${
                 errors.password ? 'border-red-500' : ''
               }`}
-              placeholder="Enter Password"
+              placeholder="비빌번호를 입력하세요"
             />
             {errors.password?.message && (
               <p className="text-xs text-red-500">{errors.password.message}</p>
@@ -155,7 +166,7 @@ const RegisterPage = () => {
           {/* confirm password */}
           <div className="flex flex-col gap-2 text-textColor-light">
             <label htmlFor="confirmPassword" className="text-xs opacity-70">
-              Confirm Password
+              비밀번호 확인
             </label>
             <input
               type="password"
@@ -174,7 +185,7 @@ const RegisterPage = () => {
               className={`p-3 py-2 text-sm font-semibold transition-all border rounded-sm outline-none focus:border-2 border-black/30 focus:border-black placeholder:font-light ${
                 errors.confirmPassword ? 'border-red-500' : ''
               }`}
-              placeholder="Enter Confirm Password"
+              placeholder="비빌번호를 입력하세요"
             />
             {errors.confirmPassword?.message && (
               <p className="text-xs text-red-500">
@@ -186,17 +197,17 @@ const RegisterPage = () => {
           {/* submit button */}
           <button
             type="submit"
-            className="main-button disabled:opacity-70 disabled:cursor-not-allowed"
+            className="mt-4 main-button disabled:opacity-70 disabled:cursor-not-allowed"
             disabled={!isValid || isLoading}
           >
-            Register
+            회원가입
           </button>
 
           {/* login link */}
           <p className="text-xs text-textColor-light/70">
-            You have an account?{' '}
+            계정이 있으세요?{' '}
             <Link to="/login" className="hover-link">
-              Login now
+              로그인
             </Link>
           </p>
         </form>

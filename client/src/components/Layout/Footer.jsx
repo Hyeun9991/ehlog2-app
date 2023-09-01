@@ -5,7 +5,7 @@ import images from '../../constants/images';
 
 const Footer = () => {
   return (
-    <section className="py-6 md:py-2.5 bg-black">
+    <section className="py-6 bg-black md:py-3">
       <footer className="container flex flex-col-reverse items-center justify-between gap-6 px-4 mx-auto md:flex-row">
         {/* Last Update */}
         <p className="text-xs uppercase text-textColor-dark opacity-90">

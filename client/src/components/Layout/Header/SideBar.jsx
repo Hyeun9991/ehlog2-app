@@ -2,10 +2,20 @@ import React, { useState } from 'react';
 import { IoCloseOutline, IoMenuOutline, IoArrowForward } from 'react-icons/io5';
 import { menuLists, contactLists } from './menuLists';
 import images from '../../../constants/images';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../../store/actions/user';
 
 const SideBar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
+
   const [showSidebar, setShowSidebar] = useState(false);
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
 
   return (
     <>
@@ -32,8 +42,8 @@ const SideBar = () => {
             className="transition-all hover:scale-110"
           />
         </Link>
-        <ul className="flex flex-col text-2xl uppercase text-textColor-light gap-y-3">
-          <p className="mb-1 additional-text">Menu</p>
+        <ul className="flex flex-col ml-1 text-2xl uppercase text-textColor-light gap-y-3">
+          <p className="mb-1 additional-text">메뉴</p>
           {menuLists.map((item) => (
             <li className="flex" key={item.id}>
               <Link
@@ -48,8 +58,8 @@ const SideBar = () => {
             </li>
           ))}
         </ul>
-        <ul className="flex flex-col uppercase text-textColor-light gap-y-3">
-          <p className="mb-1 additional-text">Social & Contact</p>
+        <ul className="flex flex-col ml-1 uppercase text-textColor-light gap-y-3">
+          <p className="mb-1 additional-text">소셜 & 연락</p>
           {contactLists.map((item) => (
             <li key={item.id}>
               <Link to={item.to} target="_blank" rel="noreferrer">
@@ -58,6 +68,36 @@ const SideBar = () => {
             </li>
           ))}
         </ul>
+
+        {userState.userInfo ? (
+          <ul className="flex flex-col items-start text-textColor-light gap-y-3">
+            <p className="mb-1 additional-text">계정</p>
+            <button
+              type="button"
+              className="hover-text"
+              onClick={() => navigate('/profile')}
+            >
+              프로필
+            </button>
+            <button
+              type="button"
+              className="hover-text"
+              onClick={logoutHandler}
+            >
+              로그아웃
+            </button>
+          </ul>
+        ) : (
+          <>
+            {/* Sign in Button */}
+            <button
+              onClick={() => navigate('/login')}
+              className="py-2 uppercase main-button sm:w-[30vw]"
+            >
+              로그인
+            </button>
+          </>
+        )}
       </div>
     </>
   );

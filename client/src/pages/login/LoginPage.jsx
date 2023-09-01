@@ -7,6 +7,7 @@ import { login } from '../../services/index/users';
 import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../store/reducers/userReducers';
+import { images } from '../../constants';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -56,8 +57,18 @@ const LoginPage = () => {
 
   return (
     <Layout className="flex items-center justify-center min-h-screen">
-      <section className="flex flex-col items-center justify-center gap-7 main-container">
-        <h1 className="title-xl">Sign In</h1>
+      <section className="flex flex-col items-center justify-center gap-4 main-container">
+        <div className="flex flex-col items-center gap-2">
+          <Link to="/" className="mb-3">
+            <img
+              src={images.BlackSmallLogo}
+              alt="logo"
+              className="hover-logo"
+            />
+            <h1 className="ml-1 text-sm logo-text">EUNHYE, eunhye ·</h1>
+          </Link>
+          <h2 className="title-xl">로그인</h2>
+        </div>
         <form
           className="w-full sm:w-[320px] flex flex-col gap-4"
           onSubmit={handleSubmit(submitHandler)}
@@ -65,7 +76,7 @@ const LoginPage = () => {
           {/* email */}
           <div className="flex flex-col gap-2 text-textColor-light">
             <label htmlFor="email" className="text-xs opacity-70">
-              Email
+              이메일
             </label>
             <input
               type="email"
@@ -84,7 +95,7 @@ const LoginPage = () => {
               className={`p-3 py-2 text-sm font-semibold transition-all border rounded-sm outline-none focus:border-2 border-black/30 focus:border-black placeholder:font-light ${
                 errors.email ? 'border-red-500' : ''
               }`}
-              placeholder="Enter Email"
+              placeholder="이메일을 입력하세요."
             />
             {errors.email?.message && (
               <p className="text-xs text-red-500">{errors.email.message}</p>
@@ -94,7 +105,7 @@ const LoginPage = () => {
           {/* password */}
           <div className="flex flex-col gap-2 text-textColor-light">
             <label htmlFor="password" className="text-xs opacity-70">
-              Password
+              비밀번호
             </label>
             <input
               type="password"
@@ -112,7 +123,7 @@ const LoginPage = () => {
               className={`p-3 py-2 text-sm font-semibold transition-all border rounded-sm outline-none focus:border-2 border-black/30 focus:border-black placeholder:font-light ${
                 errors.password ? 'border-red-500' : ''
               }`}
-              placeholder="Enter Password"
+              placeholder="비밀번호를 입력하세요."
             />
             {errors.password?.message && (
               <p className="text-xs text-red-500">{errors.password.message}</p>
@@ -122,23 +133,26 @@ const LoginPage = () => {
           {/* submit button */}
           <button
             type="submit"
-            className="main-button disabled:opacity-70 disabled:cursor-not-allowed"
+            className="mt-4 main-button disabled:opacity-70 disabled:cursor-not-allowed"
             disabled={!isValid || isLoading}
           >
-            Login
+            로그인
           </button>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-center gap-3">
             {/* forget password link */}
             <Link to="/forget-password" className="hover-link">
-              Forget password?
+              비밀번호 찾기
             </Link>
+
+            <span className="mb-[1.5px] font-extralight opacity-70 text-xs">
+              |
+            </span>
 
             {/* login link */}
             <p className="text-xs text-textColor-light/70">
-              Do not have an account?{' '}
               <Link to="/register" className="hover-link">
-                Register now
+                회원가입
               </Link>
             </p>
           </div>
