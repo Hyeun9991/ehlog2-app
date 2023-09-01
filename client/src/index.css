@@ -46,6 +46,9 @@ body {
   .main-button {
     @apply px-8 py-3 text-xs uppercase transition-all rounded-sm text-textColor-dark/90 hover:text-textColor-dark bg-bgColor-dark hover:px-9;
   }
+  .secondary-button {
+    @apply px-4 py-2 text-xs uppercase transition-all border rounded-sm hover:px-5;
+  }
   .main-button-white {
     @apply px-8 py-2 text-xs uppercase transition-all rounded-sm text-textColor-light bg-[#fafafa] hover:px-9;
   }

@@ -30,7 +30,7 @@ const ProfilePage = () => {
   });
 
   // useMutation 훅을 사용하여 API 호출과 관련된 로직을 처리
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading: updateProfileIsLoading } = useMutation({
     // 사용자가 제출한 정보를 바탕으로 updateProfile 함수 호출
     mutationFn: ({ name, email, password }) => {
       return updateProfile({
@@ -81,7 +81,7 @@ const ProfilePage = () => {
 
   return (
     <Layout className="flex items-center justify-center min-h-screen">
-      <section className="flex flex-col sm:w-[320px] sm:px-0 items-center justify-center gap-4 main-container">
+      <section className="relative flex flex-col sm:w-[320px] sm:px-0 items-center justify-center gap-4 main-container">
         {/* <p>{profileData?.name}</p> */}
         <h1 className="mb-2 title-xl">프로필</h1>
         <ProfilePicture avatar={profileData?.avatar} />
@@ -169,9 +169,9 @@ const ProfilePage = () => {
           <button
             type="submit"
             className="mt-4 main-button disabled:opacity-70 disabled:cursor-not-allowed"
-            disabled={!isValid || profileIsLoading}
+            disabled={!isValid || profileIsLoading || updateProfileIsLoading}
           >
-            수정하기
+            변경하기
           </button>
         </form>
       </section>

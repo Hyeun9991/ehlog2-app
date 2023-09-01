@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
+import path from 'path';
 import {
   errorResponserHandler,
   invalidPathHandler,
@@ -20,6 +21,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.use(invalidPathHandler); // 존재하지 않는 경로 처리를 위한 미들웨어
 app.use(errorResponserHandler); // 에러 핸들링을 위한 미들웨어
