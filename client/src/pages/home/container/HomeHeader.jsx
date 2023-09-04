@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import {
   menuLists,
   contactLists,
-} from '../../../components/Layout/Header/menuLists';
+} from '../../../components/layout/header/menuLists';
 
 const HomeHeader = () => {
   return (

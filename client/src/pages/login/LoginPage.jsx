@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Layout from '../../components/Layout/Layout';
+import Layout from '../../components/layout/Layout';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';

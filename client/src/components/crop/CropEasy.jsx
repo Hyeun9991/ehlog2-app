@@ -16,6 +16,10 @@ const CropEasy = ({ photo, setOpenCrop }) => {
   const [zoom, setZoom] = useState(1); // 이미지 줌 상태 관리 (기본값은 100%)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null); // 크롭된 영역 픽셀 정보 관리
 
+  /**
+   * 데이터 업데이트 (Mutation)
+   * useMutation을 사용하여 데이터를 업데이트하는 동작을 정의
+   */
   const { mutate, isLoading } = useMutation({
     // 사용자가 제출한 정보를 바탕으로 updateProfilePicture 함수 호출
     mutationFn: ({ token, formData }) => {
@@ -29,7 +33,6 @@ const CropEasy = ({ photo, setOpenCrop }) => {
       setOpenCrop(false);
       localStorage.setItem('account', JSON.stringify(data)); // 로컬 스토리지에 사용자 정보 저장
       queryClient.invalidateQueries(['profile']); // 'profile' 쿼리가 무효화, 이는 새로운 데이터를 가져오거나 업데이트된 데이터를 반영하기 위해 쿼리를 다시 실행하도록 지시
-      toast.success('프로필 사진이 성공적으로 업데이트되었습니다.');
     },
     onError: (error) => {
       toast.error(error.message);
@@ -37,12 +40,16 @@ const CropEasy = ({ photo, setOpenCrop }) => {
     },
   });
 
-  // 크롭 완료 이벤트 핸들러
+  /**
+   * 크롭 완료 이벤트를 처리하고 크롭된 영역의 픽셀 정보를 저장
+   */
   const handleCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
-  // 이미지 크롭 및 업로드 이벤트 핸들러
+  /**
+   * 토큰과 폼 데이터(파일)를 mutate 함수를 호출하여 데이터를 업데이트
+   */
   const handleCropImage = async () => {
     try {
       const croppedImg = await getCroppedImg(photo?.url, croppedAreaPixels);
@@ -65,9 +72,6 @@ const CropEasy = ({ photo, setOpenCrop }) => {
   return (
     <div className="fixed z-[1000] inset-0 bg-black/40 flex justify-center items-center p-5 overflow-auto">
       <div className="bg-bgColor-dark h-fit w-full sm:max-w-[350px] p-7 rounded flex flex-col items-center gap-3">
-        {/* <h2 className="text-lg font-semibold text-textColor-dark">
-          이미지 자르기
-        </h2> */}
         <div className="relative w-full overflow-hidden bg-bgColor-light/10 aspect-square">
           <Cropper
             image={photo?.url}

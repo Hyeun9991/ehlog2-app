@@ -41,14 +41,18 @@ const ProfilePicture = ({ avatar }) => {
     },
   });
 
+  /**
+   * 선택된 파일 정보를 photo 상태에 저장하고 크롭 모달 열기
+   */
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setPhoto({ url: URL.createObjectURL(file), file: file }); // 선택된 파일 정보를 photo 상태에 저장하고 크롭 모달 열기
+    setPhoto({ url: URL.createObjectURL(file), file: file });
     setOpenCrop(true);
   };
 
   /**
    * 토큰과 폼 데이터(undefined)를 mutate 함수를 호출하여 데이터를 업데이트
+   * 프로필 사진 삭제 작업을 처리
    */
   const handleDeleteImage = () => {
     if (window.confirm('프로필 사진을 삭제하겠습니까?')) {

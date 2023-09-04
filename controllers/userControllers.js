@@ -48,7 +48,7 @@ const loginUser = async (req, res, next) => {
     }
 
     if (await user.comparePassword(password)) {
-      // 사용자 등록에 성공하면 응답으로 사용자 정보와 토큰을 반환
+      // 로그인에 성공하면 응답으로 사용자 정보와 토큰을 반환
       return res.status(201).json({
         _id: user._id,
         avatar: user.avatar,

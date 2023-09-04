@@ -1,5 +1,5 @@
 import React from 'react';
-import { contactLists } from './Header/menuLists';
+import { contactLists } from './header/menuLists';
 import { Link } from 'react-router-dom';
 import images from '../../constants/images';
 

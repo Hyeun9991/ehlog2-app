@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Layout from '../../components/Layout/Layout';
-import { Link, useNavigate } from 'react-router-dom';
+import Layout from '../../components/layout/Layout';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
