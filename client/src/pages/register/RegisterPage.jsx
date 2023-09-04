@@ -14,9 +14,12 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
 
-  // useMutation 훅을 사용하여 API 호출과 관련된 로직을 처리
+  /**
+   * 데이터 업데이트 (Mutation)
+   * useMutation을 사용하여 데이터를 업데이트하는 동작을 정의
+   */
   const { mutate, isLoading } = useMutation({
-    // 사용자가 제출한 정보를 바탕으로 회원 가입 함수 호출
+    // 사용자가 제출한 정보를 바탕으로 signup 함수 호출
     mutationFn: ({ name, email, password }) => {
       return signup({ name, email, password });
     },
@@ -30,6 +33,7 @@ const RegisterPage = () => {
     },
   });
 
+  // 사용자 정보가 있다면 메인 페이지로 리다이렉트
   useEffect(() => {
     if (userState.userInfo) {
       navigate('/');
@@ -51,12 +55,17 @@ const RegisterPage = () => {
     mode: 'onChange',
   });
 
+  // 'password'라는 입력 필드의 현재 값을 가져와서 password 변수에 할당
   const password = watch('password');
 
+  /**
+   * 사용자가 제출한 데이터(name, email, password)를
+   * mutate 함수를 호출하여 데이터를 업데이트
+   */
   const submitHandler = (data) => {
     const { name, email, password } = data;
 
-    // useMutation 훅의 mutate 함수를 호출하여 회원 가입 실행
+    // mutate: React Query에서 제공하는 데이터를 업데이트하고 캐시를 갱신하는 함수
     mutate({ name, email, password });
   };
 

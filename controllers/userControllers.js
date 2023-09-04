@@ -132,6 +132,7 @@ const updateProfilePicture = async (req, res, next) => {
 
     upload(req, res, async function (err) {
       if (err) {
+        // 업로드 중 에러가 발생했을 때
         const error = new Error(
           '파일 업로드 중 알 수 없는 에러가 발생했습니다.' + err.message,
         );
@@ -139,7 +140,7 @@ const updateProfilePicture = async (req, res, next) => {
       } else {
         // 업로드가 성공했을 때
 
-        // 업로드 된 파일이 존재하는지 확인
+        // 업로드 된 파일이 있으면
         if (req.file) {
           let filename;
           let updatedUser = await User.findById(req.user._id); // 현재 사용자 정보를 가져옴
@@ -162,7 +163,7 @@ const updateProfilePicture = async (req, res, next) => {
             token: await updatedUser.generateJWT(),
           });
         } else {
-          // 업로드에 실패했을 때
+          // 업로드된 파일이 없으면
           let filename;
           let updatedUser = await User.findById(req.user._id);
 

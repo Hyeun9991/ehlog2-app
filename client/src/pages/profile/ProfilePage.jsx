@@ -8,7 +8,6 @@ import { getUserProfile, updateProfile } from '../../services/index/users';
 import ProfilePicture from '../../components/ProfilePicture';
 import { userActions } from '../../store/reducers/userReducers';
 import { toast } from 'react-hot-toast';
-import { images } from '../../constants';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -16,7 +15,11 @@ const ProfilePage = () => {
   const queryClient = useQueryClient();
   const userState = useSelector((state) => state.user);
 
-  // useQuery 훅을 사용하여 프로필 정보를 가져옴
+  /**
+   * 데이터 가져오기 (Query)
+   * useQuery를 사용하여 데이터를 가져오는 쿼리를 정의
+   * 데이터를 서버에서 가져오고 캐싱할 수 있음
+   */
   const {
     data: profileData, // 가져온 프로필 데이터
     isLoading: profileIsLoading, // 데이터 로딩 중 여부
@@ -29,7 +32,10 @@ const ProfilePage = () => {
     queryKey: ['profile'], // 쿼리의 식별자, 'profile' 데이터와 관련된 정보를 가져오거나 업데이트할 때 사용
   });
 
-  // useMutation 훅을 사용하여 API 호출과 관련된 로직을 처리
+  /**
+   * 데이터 업데이트 (Mutation)
+   * useMutation을 사용하여 데이터를 업데이트하는 동작을 정의
+   */
   const { mutate, isLoading: updateProfileIsLoading } = useMutation({
     // 사용자가 제출한 정보를 바탕으로 updateProfile 함수 호출
     mutationFn: ({ name, email, password }) => {
@@ -50,6 +56,7 @@ const ProfilePage = () => {
     },
   });
 
+  // 사용자 정보가 없으면 메인 페이지로 리다이렉트
   useEffect(() => {
     if (!userState.userInfo) {
       navigate('/');
@@ -67,23 +74,28 @@ const ProfilePage = () => {
       password: '',
     },
     values: {
-      // 프로필 데이터 로딩 중이면 빈 문자열, 그렇지 않으면 프로필 데이터에서 가져온 값
+      // 프로필 데이터 로딩 중이면 빈 문자열
       name: profileIsLoading ? '' : profileData.name,
       email: profileIsLoading ? '' : profileData.email,
     },
     mode: 'onChange',
   });
 
+  /**
+   * 사용자가 제출한 데이터(name, email, password)를
+   * mutate 함수를 호출하여 데이터를 업데이트
+   */
   const submitHandler = (data) => {
     const { name, email, password } = data;
+
+    // mutate: React Query에서 제공하는 데이터를 업데이트하고 캐시를 갱신하는 함수
     mutate({ name, email, password });
   };
 
   return (
     <Layout className="flex items-center justify-center min-h-screen">
       <section className="relative flex flex-col sm:w-[320px] sm:px-0 items-center justify-center gap-4 main-container">
-        {/* <p>{profileData?.name}</p> */}
-        <h1 className="mb-2 title-xl">프로필</h1>
+        {/* <h1 className="mb-2 title-xl">프로필</h1> */}
         <ProfilePicture avatar={profileData?.avatar} />
         <form
           className="flex flex-col w-full gap-4"
