@@ -21,7 +21,7 @@ const PostSchema = new Schema(
     },
     photo: {
       type: String,
-      required: true,
+      required: false,
     },
     user: {
       type: Schema.Types.ObjectId,

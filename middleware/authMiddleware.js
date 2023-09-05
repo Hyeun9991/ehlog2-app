@@ -31,3 +31,15 @@ export const authGuard = async (req, res, next) => {
     next(error);
   }
 };
+
+// 사용자가 관리자 권한을 가지고 있는지를 확인
+export const adminGuard = (req, res, next) => {
+  // 요청 객체에 user 속성이 존재하고 admin 속성이 true인 경우
+  if (req.user && req.user.admin) {
+    next();
+  } else {
+    let error = new Error('관리자 권한이 부여되지 않은 사용자입니다.');
+    error.statusCode = 401;
+    next(error);
+  }
+};
