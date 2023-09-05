@@ -31,7 +31,11 @@ const CommentSchema = new Schema(
       default: null,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    // 가상 필드를 JSON으로 변환할 때 가상 필드를 포함시키는 옵션
+    toJSON: { virtuals: true },
+  },
 );
 
 // 가상 필드 'replies'를 정의

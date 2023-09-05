@@ -38,7 +38,11 @@ const PostSchema = new Schema(
       },
     ],
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    // 가상 필드를 JSON으로 변환할 때 가상 필드를 포함시키는 옵션
+    toJSON: { virtuals: true },
+  },
 );
 
 // 가상 필드 'comments'를 정의

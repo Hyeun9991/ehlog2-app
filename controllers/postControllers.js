@@ -124,4 +124,45 @@ const deletePost = async (req, res, next) => {
   }
 };
 
-export { createPost, updatePost, deletePost };
+// GET /api/posts/:slug
+const getPost = async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ slug: req.params.slug }).populate([
+      {
+        path: 'user', // user 필드와 관련된 정보를 가져옴
+        select: ['avatar', 'name'], // 아바타(avatar), 이름(name) 정보가 포함
+      },
+      {
+        path: 'comments', // 부모 댓글
+        match: {
+          // match 옵션을 사용하여 check가 true이고 parent가 null인 댓글만 가져옴
+          check: true,
+          parent: null,
+        },
+        populate: [
+          {
+            path: 'user',
+            select: ['avatar', 'name'],
+          },
+          {
+            path: 'replies', // 자식 댓글
+            match: {
+              check: true,
+            },
+          },
+        ],
+      },
+    ]);
+
+    if (!post) {
+      const error = new Error('게시글을 찾을 수 없습니다.');
+      return next(error);
+    }
+
+    return res.json(post);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { createPost, updatePost, deletePost, getPost };
