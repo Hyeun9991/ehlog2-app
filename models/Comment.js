@@ -11,7 +11,7 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    postId: {
+    post: {
       type: Schema.Types.ObjectId,
       ref: 'Post',
       required: true,
@@ -35,7 +35,7 @@ const CommentSchema = new Schema(
 );
 
 // 가상 필드 'replies'를 정의
-PostSchema.virtual('replies', {
+CommentSchema.virtual('replies', {
   ref: 'Comment', // 'Comment' 모델을 참조
   localField: '_id', // 현재 모델의 '_id' 필드를 사용하여 매핑
   foreignField: 'parent', // 'Comment' 모델의 'parent' 필드와 연결

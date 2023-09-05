@@ -1,8 +1,10 @@
-import { uploadPicture } from '../middleware/uploadPictureMiddleware';
 import Post from '../models/Post';
+import Comment from '../models/Comment';
+import { uploadPicture } from '../middleware/uploadPictureMiddleware';
 import { fileRemover } from '../utils/fileRemover';
 import { v4 as uuidv4 } from 'uuid';
 
+// POST /api/posts
 const createPost = async (req, res, next) => {
   try {
     // 새로운 게시물 객체 생성
@@ -29,6 +31,7 @@ const createPost = async (req, res, next) => {
   }
 };
 
+// PUT /api/posts/:slug
 const updatePost = async (req, res, next) => {
   try {
     // 슬러그로 게시글 찾음
@@ -100,4 +103,25 @@ const updatePost = async (req, res, next) => {
   }
 };
 
-export { createPost, updatePost };
+// DELETE /api/posts/:slug
+const deletePost = async (req, res, next) => {
+  try {
+    const post = await Post.findOneAndDelete({ slug: req.params.slug });
+
+    if (!post) {
+      const error = new Error('게시물을 찾을 수 없습니다');
+      return next(error);
+    }
+
+    // 게시물이 성공적으로 삭제되면 해당 게시물에 연결된 모든 댓글을 삭제
+    await Comment.deleteMany({ post: post._id });
+
+    return res.json({
+      message: '게시글이 성공적으로 삭제되었습니다.',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { createPost, updatePost, deletePost };

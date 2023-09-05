@@ -9,14 +9,14 @@ import {
 const router = express.Router();
 import { authGuard } from '../middleware/authMiddleware';
 
-// POST
+// POST register, login
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
-// GET
+// GET user profile
 router.get('/profile', authGuard, userProfile);
 
-// PUT
+// PUT update profile, profile picture
 router.put('/updateProfile', authGuard, updateProfile);
 router.put('/updateProfilePicture', authGuard, updateProfilePicture);
 

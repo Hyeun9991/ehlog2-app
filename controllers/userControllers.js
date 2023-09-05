@@ -2,6 +2,7 @@ import { uploadPicture } from '../middleware/uploadPictureMiddleware';
 import User from '../models/User';
 import { fileRemover } from '../utils/fileRemover';
 
+// POST /api/users/register
 const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -37,6 +38,7 @@ const registerUser = async (req, res, next) => {
   }
 };
 
+// POST /api/users/login
 const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -66,6 +68,7 @@ const loginUser = async (req, res, next) => {
   }
 };
 
+// POST /api/users/profile
 const userProfile = async (req, res, next) => {
   try {
     let user = await User.findById(req.user._id); // authMiddleware
@@ -89,6 +92,7 @@ const userProfile = async (req, res, next) => {
   }
 };
 
+// POST /api/users/updateProfile
 const updateProfile = async (req, res, next) => {
   try {
     let user = await User.findById(req.user._id);
@@ -124,6 +128,7 @@ const updateProfile = async (req, res, next) => {
   }
 };
 
+// POST /api/users/updateProfilePicture
 const updateProfilePicture = async (req, res, next) => {
   try {
     // 'profilePicture' 필드 이름은 클라이언트에서 전송한 파일을 식별하는데 사용됨

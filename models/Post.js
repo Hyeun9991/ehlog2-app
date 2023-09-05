@@ -45,7 +45,7 @@ const PostSchema = new Schema(
 PostSchema.virtual('comments', {
   ref: 'Comment', // 'Comment' 모델을 참조
   localField: '_id', // 현재 모델의 '_id' 필드를 사용하여 매핑
-  foreignField: 'postId', // 'Comment' 모델의 'postId' 필드와 연결
+  foreignField: 'post', // 'Comment' 모델의 'postId' 필드와 연결
 });
 
 const Post = model('Post', PostSchema);
