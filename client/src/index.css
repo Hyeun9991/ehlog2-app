@@ -8,7 +8,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fafafa;
+  /* background-color: #fafafa; */
 }
 
 @layer components {
@@ -28,7 +28,7 @@ body {
     @apply text-2xl font-bold text-textColor-light;
   }
   .title-xl {
-    @apply text-2xl font-bold text-textColor-light;
+    @apply text-xl font-bold text-textColor-light;
   }
 
   /* Hover Effect */
@@ -55,5 +55,10 @@ body {
   .main-button:disabled:hover {
     /* hover 효과가 없도록 스타일 설정 */
     @apply hover:px-8 hover:font-normal;
+  }
+
+  /* Positions */
+  .position-center {
+    @apply absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2;
   }
 }
