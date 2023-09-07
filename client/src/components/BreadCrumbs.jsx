@@ -6,7 +6,10 @@ const BreadCrumbs = ({ data }) => {
     <nav className="flex items-center overflow-x-auto whitespace-normal">
       <ul className="flex">
         {data.map((item, index) => (
-          <li key={item.id} className="text-xs opacity-50">
+          <li
+            key={item.id}
+            className="text-xs transition-all text-textColor-light additional-text hover:font-semibold"
+          >
             <Link to={item.to}>{item.name}</Link>
             {index !== data.length - 1 && <span className="px-1">/</span>}
           </li>

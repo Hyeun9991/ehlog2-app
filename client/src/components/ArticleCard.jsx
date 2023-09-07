@@ -5,11 +5,34 @@ import { Link } from 'react-router-dom';
 
 const ArticleCard = ({ post }) => {
   return (
-    <Link to={`/blog/${post.slug}`} className="flex flex-col w-full gap-5 px-3">
+    <Link
+      to={`/blog/${post.slug}`}
+      className="flex flex-col w-full gap-3 group"
+    >
       {/* 타이틀 & 캡션(설명글?) */}
       <div className="text-textColor-light">
-        <h2 className="title-xl">{post.title}</h2>
-        <p className="text-sm additional-text">{post.caption}</p>
+        <h2 className="leading-3 title-xl group-hover:underline">
+          {post.title}
+        </h2>
+        {/* <p className="text-sm additional-text">{post.caption}</p> */}
+      </div>
+
+      {/* 컨탠츠 내용 & 이미지 */}
+      <div className="flex gap-6">
+        <p className="flex-1 overflow-hidden text-sm whitespace-normal sm:leading-6 text-textColor-light/90 line-clamp-3 sm:line-clamp-5">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam
+        </p>
+        <div className="w-[100px] h-[100px] hidden sm:block">
+          <img
+            src={
+              post?.photo
+                ? stables.UPLOAD_FOLDER_BASE_URL + post?.photo
+                : images.bear3
+            }
+            alt={post.title}
+            className="object-cover w-full h-full rounded-sm"
+          />
+        </div>
       </div>
 
       {/* 작성자 정보 & 날짜 */}
@@ -27,7 +50,7 @@ const ArticleCard = ({ post }) => {
           <div className="flex flex-col text-textColor-light">
             <div className="flex items-center gap-1 text-sm">
               <h4>{post.user.name}</h4>
-              {!post.user.verified ? (
+              {post.user.verified ? (
                 <span className="text-xs">
                   <BsPatchCheckFill />
                 </span>
