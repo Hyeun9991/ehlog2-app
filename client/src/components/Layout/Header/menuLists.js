@@ -6,8 +6,8 @@ export const menuLists = [
   },
   {
     id: 2,
-    name: 'Posts',
-    to: '/posts',
+    name: 'Blog',
+    to: '/blog',
   },
   {
     id: 3,

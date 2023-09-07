@@ -8,13 +8,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: #fafafa; */
+  font-family: suit;
+  background-color: #fafafa;
 }
 
 @layer components {
   /* Containers */
   .main-container {
-    @apply container mx-auto px-4 lg:px-0 lg:w-[800px];
+    @apply container mx-auto px-4 lg:px-0 lg:w-[750px];
   }
 
   /* Text */
@@ -28,7 +29,7 @@ body {
     @apply text-2xl font-bold text-textColor-light;
   }
   .title-xl {
-    @apply text-xl font-bold text-textColor-light;
+    @apply text-lg font-bold sm:text-xl text-textColor-light;
   }
 
   /* Hover Effect */

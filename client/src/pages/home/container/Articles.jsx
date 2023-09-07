@@ -16,7 +16,7 @@ const Articles = () => {
 
   return (
     <section>
-      <div className="grid grid-cols-1 gap-4 p-3 md:grid-cols-2">
+      <div className="flex">
         {!isLoading &&
           !isError &&
           data.map((post) => <ArticleCard key={post._id} post={post} />)}

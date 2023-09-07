@@ -8,7 +8,7 @@ import {
 
 const HomeHeader = () => {
   return (
-    <section className="pt-[44px]">
+    <section>
       {/* line header */}
       <div className="py-1.5 bg-bgColor-dark mb-4">
         <div className="container px-4 mx-auto">
