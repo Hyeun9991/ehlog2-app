@@ -20,7 +20,10 @@ const ArticleCard = ({ post }) => {
       {/* 컨탠츠 내용 & 이미지 */}
       <div className="flex gap-6">
         <p className="flex-1 overflow-hidden text-sm whitespace-normal sm:leading-6 text-textColor-light/90 line-clamp-3 sm:line-clamp-5">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam Lorem
+          ipsum dolor, sit amet consectetur adipisicing elit. Ullam Lorem ipsum
+          dolor, sit amet consectetur adipisicing elit. Ullam Lorem ipsum dolor,
+          sit amet consectetur adipisicing elit. Ullam
         </p>
         <div className="w-[100px] h-[100px] hidden sm:block">
           <img
@@ -30,7 +33,7 @@ const ArticleCard = ({ post }) => {
                 : images.bear3
             }
             alt={post.title}
-            className="object-cover w-full h-full rounded-sm"
+            className="object-cover w-full h-full rounded"
           />
         </div>
       </div>
@@ -45,11 +48,11 @@ const ArticleCard = ({ post }) => {
                 : images.sampleImage
             }
             alt="post profile"
-            className="w-8 h-8 rounded-full sm:w-9 sm:h-9"
+            className="w-8 h-8 rounded-full"
           />
           <div className="flex flex-col text-textColor-light">
             <div className="flex items-center gap-1 text-sm">
-              <h4>{post.user.name}</h4>
+              <h4 className="font-semibold">{post.user.name}</h4>
               {post.user.verified ? (
                 <span className="text-xs">
                   <BsPatchCheckFill />
@@ -61,7 +64,7 @@ const ArticleCard = ({ post }) => {
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-1 text-xs italic additional-text text-textColor-light">
+        <div className="flex items-center gap-1 text-xs additional-text text-textColor-light">
           <span>
             {new Date(post.createdAt).toLocaleDateString('ko-KR', {
               year: 'numeric',

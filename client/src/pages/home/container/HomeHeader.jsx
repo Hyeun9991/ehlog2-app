@@ -31,14 +31,16 @@ const HomeHeader = () => {
           <img src={images.BlackLogo} alt="logo" className="hover-logo" />
           <div className="ml-3 text-textColor-light">
             <p className="logo-text">EUNHYE, eunhye ·</p>
-            <p className="text-xs additional-text">
+            <p className="text-sm additional-text">
               Blog on Frontend Developer
             </p>
           </div>
         </Link>
         {/* Menu */}
-        <div className="flex flex-col items-end gap-1 mx-3 mb-3 text-xs uppercase">
-          <p className="mx-2 additional-text text-textColor-light">menu</p>
+        <div className="flex flex-col items-end gap-1 mx-3 mb-3 text-xs uppercase sm:text-sm">
+          <p className="mx-2 text-xs additional-text text-textColor-light">
+            menu
+          </p>
           <ul className="flex flex-col items-end justify-center gap-3 text-xs uppercase bg-black hover-logo w-[100px] h-[100px] p-2 rounded text-textColor-dark">
             {menuLists.map((item) => (
               <li key={item.id}>

@@ -1,55 +1,40 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { menuLists } from './menuLists';
 import SideBar from './SideBar';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../../store/actions/user';
+import { images, stables } from '../../../constants';
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
 
-  // handleScroll 함수가 prevScrollPos에 의존하는 상태와 함께 메모이제이션됨.
-  // 의존성 배열에는 메모이제이션된 함수만 넣을 수 있어서 의도치 않은 불필요한 재렌더링을 방지하고 성능을 최적화할 수 있음
-  const handleScroll = useCallback(() => {
-    const currentScrollPos = window.scrollY;
+  const [isClicked, setIsClicked] = useState(false);
 
-    // 현재 스크롤 위치와 이전 스크롤 위치 비교하여 스크롤 방향 확인
-    if (currentScrollPos > prevScrollPos) {
-      setIsScrolled(false); // 스크롤을 내릴 때 헤더 나타냄
-    } else {
-      setIsScrolled(true); // 스크롤을 올릴 때 헤더 숨김
-    }
+  const handleClick = () => {
+    setIsClicked(!isClicked);
+  };
 
-    // 현재 스크롤 위치를 이전 스크롤 위치로 설정
-    setPrevScrollPos(currentScrollPos);
-  }, [prevScrollPos]); // prevScrollPos가 변경될 때마다 핸들러 재생성
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      // 컴포넌트 언마운트 시 스크롤 이벤트 리스너 제거
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [handleScroll]); // 핸들러 함수가 변경될 때마다 useEffect 재실행
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
 
   return (
-    <section
-      className={`z-50 bg-bgColor-dark/70 hover:bg-bgColor-dark backdrop-blur-2xl fixed left-0 py-2.5 w-full transition-all duration-300 ${
-        isScrolled ? 'top-0' : 'top-[-100%]'
-      }`}
-    >
-      <header className="container flex items-center justify-between px-4 mx-auto">
+    <section className="fixed left-0 z-50 w-full h-[44px] transition-all duration-300 bg-bgColor-light/70 hover:bg-bgColor-light backdrop-blur-2xl">
+      <header className="container flex items-center justify-between h-full px-4 mx-auto">
         {/* Logo */}
-        <h1 className="text-sm text-textColor-dark">
+        <h1 className="text-sm text-textColor-light">
           <Link to="/" className="logo-text">
             EUNHYE, eunhye ·
           </Link>
         </h1>
 
         {/* Left Section */}
-        <nav className="items-center hidden gap-10 md:flex">
+        <nav className="items-center hidden gap-6 md:flex">
           {/* Menu Lists */}
-          <ul className="flex items-center gap-10 text-xs uppercase text-textColor-dark">
+          <ul className="flex items-center gap-10 text-xs uppercase text-textColor-light">
             {menuLists.map((item) => (
               <li key={item.id}>
                 <Link to={item.to} className="hover-text">
@@ -59,10 +44,86 @@ const Header = () => {
             ))}
           </ul>
 
-          {/* Sign in Button */}
-          <button className="main-button-white">
-            <Link to="/login">Sign in</Link>
-          </button>
+          {userState.userInfo ? (
+            <div className="flex flex-col items-center gap-y-5 gap-x-2">
+              <div className="relative group">
+                <div className="relative flex flex-col items-center text-textColor-light">
+                  <button
+                    onClick={handleClick}
+                    className="flex items-center px-4 py-2 transition-all gap-x-1"
+                  >
+                    <img
+                      src={
+                        userState.userInfo.avatar
+                          ? stables.UPLOAD_FOLDER_BASE_URL +
+                            userState.userInfo.avatar
+                          : images.sampleImage
+                      }
+                      alt="user profile"
+                      className="rounded-full w-7 h-7 group-hover:ring-2 ring-black/20"
+                    />
+                  </button>
+
+                  {isClicked && (
+                    <div
+                      className={`absolute flex flex-col hover:scale-110 top-[44px] p-4 gap-4  right-[12px] w-40 transition-all rounded bg-bgColor-dark backdrop-blur-2xl ${
+                        isClicked ? 'block' : 'hidden'
+                      }`}
+                    >
+                      <div className="flex flex-col items-center px-6">
+                        <img
+                          src={
+                            userState.userInfo.avatar
+                              ? stables.UPLOAD_FOLDER_BASE_URL +
+                                userState.userInfo.avatar
+                              : images.sampleImage
+                          }
+                          alt="user profile"
+                          className="w-20 h-20 mb-2 border rounded-full border-bgColor-light/20 group-hover:ring-2 ring-black/20"
+                        />
+                        <p className="text-sm font-semibold text-textColor-dark">
+                          {userState.userInfo.name}
+                        </p>
+                        <Link
+                          to={`mailto:${userState.userInfo.email}`}
+                          target="_blank"
+                          className="text-sm text-textColor-dark hover-text"
+                        >
+                          {userState.userInfo.email}
+                        </Link>
+                      </div>
+                      <ul className="flex flex-col items-center gap-3 pt-3 text-xs transition-all border-t opacity-90 hover:opacity-100 text-textColor-dark border-bgColor-light/20">
+                        <button
+                          type="button"
+                          className="hover-text"
+                          onClick={() => navigate('/profile')}
+                        >
+                          프로필
+                        </button>
+                        <button
+                          type="button"
+                          className="font-semibold text-red-500 opacity-100 hover-text"
+                          onClick={logoutHandler}
+                        >
+                          로그아웃
+                        </button>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Sign in Button */}
+              <button
+                onClick={() => navigate('/login')}
+                className="py-2 uppercase main-button"
+              >
+                로그인
+              </button>
+            </>
+          )}
         </nav>
 
         {/* Side Bar */}

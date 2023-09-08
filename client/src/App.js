@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import HomePage from './pages/home/HomePage';
 import RegisterPage from './pages/register/RegisterPage';
 import ArticleDetailPage from './pages/articleDetail/ArticleDetailPage';
-import { Toaster } from 'react-hot-toast';
 import ProfilePage from './pages/profile/ProfilePage';
 import LoginPage from './pages/login/LoginPage';
 

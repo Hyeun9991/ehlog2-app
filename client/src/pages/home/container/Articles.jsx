@@ -18,7 +18,7 @@ const Articles = () => {
 
   return (
     <section className="px-3">
-      <p className="mb-6 text-xs uppercase additional-text">New Post</p>
+      <p className="flex-1 mb-6 text-xs additional-text">새로운 포스터</p>
       <div className="flex ">
         {isLoading ? (
           <ArticleCardSkeleton />

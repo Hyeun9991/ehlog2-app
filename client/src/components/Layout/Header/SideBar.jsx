@@ -81,7 +81,7 @@ const SideBar = () => {
             </button>
             <button
               type="button"
-              className="hover-text"
+              className="font-semibold text-red-500 opacity-100 hover-text"
               onClick={logoutHandler}
             >
               로그아웃

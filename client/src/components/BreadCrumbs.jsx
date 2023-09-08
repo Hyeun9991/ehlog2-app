@@ -8,7 +8,7 @@ const BreadCrumbs = ({ data }) => {
         {data.map((item, index) => (
           <li
             key={item.id}
-            className="text-xs transition-all text-textColor-light additional-text hover:font-semibold"
+            className="text-xs transition-all text-textColor-light additional-text hover:font-semibold hover:opacity-100"
           >
             <Link to={item.to}>{item.name}</Link>
             {index !== data.length - 1 && <span className="px-1">/</span>}

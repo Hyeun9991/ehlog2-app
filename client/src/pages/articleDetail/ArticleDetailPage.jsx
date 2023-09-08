@@ -15,6 +15,7 @@ import Italic from '@tiptap/extension-italic';
 import parse from 'html-react-parser';
 import ArticleDetailSkeleton from './components/ArticleDetailSkeleton.jsx';
 import ErrorMessage from '../../components/ErrorMessage.jsx';
+import CommentsContainer from '../../components/comments/CommentsContainer.jsx';
 
 const ArticleDetailPage = () => {
   const { slug } = useParams();
@@ -49,7 +50,7 @@ const ArticleDetailPage = () => {
         <ErrorMessage message="게시물 세부정보를 가져올 수 없습니다." />
       ) : (
         <section className="min-h-screen py-10 main-container">
-          <article className="flex flex-col flex-1 gap-3 ">
+          <article className="flex flex-col flex-1 gap-3">
             <BreadCrumbs data={breadCrumbsData} />
             <div className="w-full h-[50vh]">
               <img
@@ -59,7 +60,7 @@ const ArticleDetailPage = () => {
                     : images.bear3
                 }
                 alt={data?.title}
-                className="object-cover w-full h-full rounded-sm"
+                className="object-cover w-full h-full rounded"
               />
             </div>
             <div className="flex gap-2">
@@ -77,6 +78,7 @@ const ArticleDetailPage = () => {
               {body}
             </div>
           </article>
+          <CommentsContainer className="mt-10" logginedUserId="a" />
         </section>
       )}
     </Layout>
