@@ -1,49 +1,51 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CommentForm from './CommentForm';
-import { getCommentsData } from '../../data/comments';
 import Comment from './Comment';
+import { useMutation } from '@tanstack/react-query';
+import { createNewComment } from '../../services/index/comments';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-hot-toast';
 
-const CommentsContainer = ({ className, logginedUserId, comments }) => {
-  // const [comments, setComments] = useState([]);
+const CommentsContainer = ({
+  className,
+  logginedUserId,
+  comments,
+  postSlug,
+}) => {
+  const userState = useSelector((state) => state.user);
+
   const [affectedComment, setAffectedComment] = useState(null);
 
-  // const mainComments = comments.filter((comment) => comment.parent === null);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const commentData = await getCommentsData();
-  //     setComments(commentData);
-  //   })();
-  // }, []);
+  const { mutate: mutateNewComment, isLoading: isLoadingNewComment } =
+    useMutation({
+      mutationFn: ({ token, desc, slug, parent, replyOnUser }) => {
+        return createNewComment({ token, desc, slug, parent, replyOnUser });
+      },
+      onSuccess: () => {
+        toast.success(
+          '댓글이 성공적으로 전송되었습니다. 관리자의 확인 후에 표시됩니다.',
+        );
+      },
+      onError: (error) => {
+        toast.error(error.message);
+        console.log(error);
+      },
+    });
 
   /**
    * [`comments` 배열에 새로운 댓글 추가하는 함수]
    *
-   * [parent]
-   * 댓글이 어떤 댓글의 자식인지를 나타내는 필드
-   * `null` = 최상위 댓글, `_id` 값이 들어가면 해당 댓글의 하위 댓글로 간주됨
-   *
-   * [replyOnUser]
-   * 이 댓글이 다른 사용자의 댓글에 답변하는 것인지를 나타내는 필드
-   * `null` = 직접 게시물에 달린 댓글, `_id` 값이 들어가면 해당 사용자의 댓글에 답변하는 것으로 간주됨
+   * [parent] `null` = 최상위 댓글, `_id` 값이 들어가면 해당 댓글의 하위 댓글로 간주됨
+   * [replyOnUser] `null` = 직접 게시물에 달린 댓글, `_id` 값이 들어가면 해당 사용자의 댓글에 답변하는 것으로 간주됨
    */
   const addCommentHandler = (value, parent = null, replyOnUser = null) => {
-    // const newComment = {
-    //   _id: Math.random().toString(),
-    //   user: {
-    //     _id: 'a',
-    //     name: 'A',
-    //   },
-    //   desc: value,
-    //   post: '1',
-    //   parent,
-    //   replyOnUser,
-    //   createdAt: new Date().toISOString(),
-    // };
-
-    // setComments((curState) => {
-    //   return [newComment, ...curState];
-    // });
+    mutateNewComment({
+      desc: value,
+      parent,
+      replyOnUser,
+      token: userState.userInfo.token,
+      slug: postSlug,
+    });
     setAffectedComment(null);
   };
 
@@ -100,10 +102,10 @@ const CommentsContainer = ({ className, logginedUserId, comments }) => {
 
   return (
     <div className={`${className}`}>
-      <p className="mb-2 text-sm additional-text">댓글 {comments.length}개</p>
       <CommentForm
         btnLabel="댓글 달기"
         formSubmitHandler={(value) => addCommentHandler(value)}
+        loading={isLoadingNewComment}
       />
       <div className="mt-8 space-y-4">
         {comments.map((comment) => (

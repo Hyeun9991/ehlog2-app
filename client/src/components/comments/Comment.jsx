@@ -136,6 +136,7 @@ const Comment = ({
             </div>
           )}
         </div>
+
         {/* 답글 보기 버튼 */}
         {replies.length > 0 && (
           <div

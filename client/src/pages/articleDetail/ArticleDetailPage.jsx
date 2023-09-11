@@ -84,6 +84,7 @@ const ArticleDetailPage = () => {
             className="mt-10"
             comments={data?.comments}
             logginedUserId={userState?.userInfo?._id}
+            postSlug={slug}
           />
         </section>
       )}

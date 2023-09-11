@@ -8,6 +8,7 @@ const CommentForm = ({
   formCancelHandler = null,
   initialText = '',
   editingMode,
+  loading = false,
 }) => {
   const textarea = useRef();
   const userState = useSelector((state) => state.user);
@@ -55,7 +56,8 @@ const CommentForm = ({
           {value && (
             <button
               type="submit"
-              className="text-sm font-semibold text-[#0496F6]"
+              disabled={loading}
+              className="text-sm font-semibold text-[#0496F6] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {btnLabel}
             </button>
