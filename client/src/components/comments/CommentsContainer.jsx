@@ -3,18 +3,18 @@ import CommentForm from './CommentForm';
 import { getCommentsData } from '../../data/comments';
 import Comment from './Comment';
 
-const CommentsContainer = ({ className, logginedUserId }) => {
-  const [comments, setComments] = useState([]);
+const CommentsContainer = ({ className, logginedUserId, comments }) => {
+  // const [comments, setComments] = useState([]);
   const [affectedComment, setAffectedComment] = useState(null);
 
-  const mainComments = comments.filter((comment) => comment.parent === null);
+  // const mainComments = comments.filter((comment) => comment.parent === null);
 
-  useEffect(() => {
-    (async () => {
-      const commentData = await getCommentsData();
-      setComments(commentData);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const commentData = await getCommentsData();
+  //     setComments(commentData);
+  //   })();
+  // }, []);
 
   /**
    * [`comments` 배열에 새로운 댓글 추가하는 함수]
@@ -28,22 +28,22 @@ const CommentsContainer = ({ className, logginedUserId }) => {
    * `null` = 직접 게시물에 달린 댓글, `_id` 값이 들어가면 해당 사용자의 댓글에 답변하는 것으로 간주됨
    */
   const addCommentHandler = (value, parent = null, replyOnUser = null) => {
-    const newComment = {
-      _id: Math.random().toString(),
-      user: {
-        _id: 'a',
-        name: 'A',
-      },
-      desc: value,
-      post: '1',
-      parent,
-      replyOnUser,
-      createdAt: new Date().toISOString(),
-    };
+    // const newComment = {
+    //   _id: Math.random().toString(),
+    //   user: {
+    //     _id: 'a',
+    //     name: 'A',
+    //   },
+    //   desc: value,
+    //   post: '1',
+    //   parent,
+    //   replyOnUser,
+    //   createdAt: new Date().toISOString(),
+    // };
 
-    setComments((curState) => {
-      return [newComment, ...curState];
-    });
+    // setComments((curState) => {
+    //   return [newComment, ...curState];
+    // });
     setAffectedComment(null);
   };
 
@@ -53,18 +53,18 @@ const CommentsContainer = ({ className, logginedUserId }) => {
    * `value`는 새로운 댓글 내용, `commentId`는 해당 댓글의 고유 식별자
    */
   const updateCommentHandler = (value, commentId) => {
-    const updatedComments = comments.map((comment) => {
-      if (comment._id === commentId) {
-        // 기존 댓글의 내용을 유지하면서 desc 속성을 새로운 value로 업데이트
-        return { ...comment, desc: value };
-      }
+    // const updatedComments = comments.map((comment) => {
+    //   if (comment._id === commentId) {
+    //     // 기존 댓글의 내용을 유지하면서 desc 속성을 새로운 value로 업데이트
+    //     return { ...comment, desc: value };
+    //   }
 
-      // comment._id와 commentId가 일치하지 않으면
-      // 해당 댓글은 변경하지 않고 원래 상태 그대로를 유지
-      return comment;
-    });
+    //   // comment._id와 commentId가 일치하지 않으면
+    //   // 해당 댓글은 변경하지 않고 원래 상태 그대로를 유지
+    //   return comment;
+    // });
 
-    setComments(updatedComments);
+    // setComments(updatedComments);
     setAffectedComment(null);
   };
 
@@ -75,26 +75,28 @@ const CommentsContainer = ({ className, logginedUserId }) => {
    */
   const deleteCommentHandler = (commentId) => {
     // comments 배열에서 commentId와 일치하지 않는 댓글만 선택해서 새로운 배열을 만듦
-    const updatedComments = comments.filter((comment) => {
-      return comment._id !== commentId;
-    });
-    setComments(updatedComments);
+    // const updatedComments = comments.filter((comment) => {
+    //   return comment._id !== commentId;
+    // });
+    // setComments(updatedComments);
   };
 
   /**
    * [commentId에 대한 모든 댓글의 답글을 가져오는 함수]
+   *
+   * 이제 필요없음, 백엔드에서 필터해서 가져올거기 때문에
    */
-  const getRepliesHandler = (commentId) => {
-    // comments 배열에서 parent 속성이 주어진 commentId와 일치하는 댓글만을 선택하고,
-    // 생성 날짜를 기준으로 정렬된 새로운 배열을 반환함
-    return comments
-      .filter((comment) => comment.parent === commentId)
-      .sort((a, b) => {
-        return (
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        );
-      });
-  };
+  // const getRepliesHandler = (commentId) => {
+  //   // comments 배열에서 parent 속성이 주어진 commentId와 일치하는 댓글만을 선택하고,
+  //   // 생성 날짜를 기준으로 정렬된 새로운 배열을 반환함
+  //   return comments
+  //     .filter((comment) => comment.parent === commentId)
+  //     .sort((a, b) => {
+  //       return (
+  //         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  //       );
+  //     });
+  // };
 
   return (
     <div className={`${className}`}>
@@ -104,7 +106,7 @@ const CommentsContainer = ({ className, logginedUserId }) => {
         formSubmitHandler={(value) => addCommentHandler(value)}
       />
       <div className="mt-8 space-y-4">
-        {mainComments.map((comment) => (
+        {comments.map((comment) => (
           <Comment
             key={comment._id}
             comment={comment}
@@ -114,7 +116,7 @@ const CommentsContainer = ({ className, logginedUserId }) => {
             addComment={addCommentHandler}
             updateComment={updateCommentHandler}
             deleteComment={deleteCommentHandler}
-            replies={getRepliesHandler(comment._id)}
+            replies={comment.replies}
           />
         ))}
       </div>

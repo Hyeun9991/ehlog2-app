@@ -66,8 +66,8 @@ const CommentForm = ({
         // 답글달때만 나오게
         <button
           className={`${
-            editingMode ? 'ml-0 mb-2' : ''
-          }  text-xs font-semibold ml-[50px] transition-all opacity-50 cursor-pointer hover:opacity-100`}
+            editingMode ? 'ml-0 mb-2' : 'ml-[50px]'
+          }  text-xs font-semibold  transition-all opacity-50 cursor-pointer hover:opacity-100`}
           onClick={formCancelHandler}
         >
           취소

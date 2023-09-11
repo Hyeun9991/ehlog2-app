@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { images } from '../../constants';
+import { images, stables } from '../../constants';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import CommentForm from './CommentForm';
 
@@ -39,10 +39,18 @@ const Comment = ({
   };
 
   return (
-    <div className="flex items-start justify-center group flex-nowrap gap-x-2.5">
+    <div
+      className={`flex items-start justify-center group flex-nowrap gap-x-2.5 ${
+        replies ? 'mb-4' : ''
+      }`}
+    >
       {/* 프로필 사진 */}
       <img
-        src={images.sampleProfile}
+        src={
+          comment?.user?.avatar
+            ? stables.UPLOAD_FOLDER_BASE_URL + comment.user.avatar
+            : images.sampleProfile
+        }
         alt="user profile"
         className="object-cover mt-[2px] rounded-full w-9 h-9"
       />
@@ -157,6 +165,8 @@ const Comment = ({
             formCancelHandler={() => setAffectedComment(null)}
           />
         )}
+
+        {/* 답 댓글 */}
         {replies.length > 0 && isMoreButtonClicked && (
           <div className="mt-2">
             {replies.map((reply) => (

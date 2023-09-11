@@ -16,9 +16,11 @@ import parse from 'html-react-parser';
 import ArticleDetailSkeleton from './components/ArticleDetailSkeleton.jsx';
 import ErrorMessage from '../../components/ErrorMessage.jsx';
 import CommentsContainer from '../../components/comments/CommentsContainer.jsx';
+import { useSelector } from 'react-redux';
 
 const ArticleDetailPage = () => {
   const { slug } = useParams();
+  const userState = useSelector((state) => state.user);
 
   const [breadCrumbsData, setBreadCrumbsData] = useState([]);
   const [body, setBody] = useState(null);
@@ -78,7 +80,11 @@ const ArticleDetailPage = () => {
               {body}
             </div>
           </article>
-          <CommentsContainer className="mt-10" logginedUserId="a" />
+          <CommentsContainer
+            className="mt-10"
+            comments={data?.comments}
+            logginedUserId={userState?.userInfo?._id}
+          />
         </section>
       )}
     </Layout>
