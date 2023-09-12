@@ -9,7 +9,7 @@ const createComment = async (req, res, next) => {
     const post = await Post.findOne({ slug: slug });
 
     if (!post) {
-      const error = new Error('댓글을 찾을 수 없습니다.');
+      const error = new Error('게시물을 찾을 수 없습니다.');
       return next(error);
     }
 
@@ -29,4 +29,26 @@ const createComment = async (req, res, next) => {
   }
 };
 
-export { createComment };
+// PUT /api/comments/:commentId
+const updateComment = async (req, res, next) => {
+  try {
+    const { desc } = req.body;
+
+    const comment = await Comment.findById(req.params.commentId);
+
+    if (!comment) {
+      const error = new Error('댓글을 찾을 수 없습니다.');
+      return next(error);
+    }
+
+    comment.desc = desc || comment.desc;
+
+    const updatedComment = await comment.save();
+
+    return res.json(updatedComment);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { createComment, updateComment };

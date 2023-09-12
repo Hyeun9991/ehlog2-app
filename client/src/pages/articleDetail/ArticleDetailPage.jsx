@@ -27,7 +27,7 @@ const ArticleDetailPage = () => {
 
   const { data, isLoading, isError } = useQuery({
     queryFn: () => getSinglePosts({ slug }),
-    queryKey: ['blog', slug],
+    queryKey: ['blog', slug], // 쿼리의 고유 키, 또한 캐시에서 데이터를 식별하는 데 사용
     onSuccess: (data) => {
       setBreadCrumbsData([
         { id: 1, name: 'Home', to: '/' },

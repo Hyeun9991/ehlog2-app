@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
-import { useMutation } from '@tanstack/react-query';
-import { createNewComment } from '../../services/index/comments';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createNewComment, updateComment } from '../../services/index/comments';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 
@@ -12,10 +12,14 @@ const CommentsContainer = ({
   comments,
   postSlug,
 }) => {
+  const queryClient = useQueryClient();
   const userState = useSelector((state) => state.user);
 
   const [affectedComment, setAffectedComment] = useState(null);
 
+  /**
+   * [새 댓글을 생성하는 작업을 수행, `createNewComment` 함수를 호출]
+   */
   const { mutate: mutateNewComment, isLoading: isLoadingNewComment } =
     useMutation({
       mutationFn: ({ token, desc, slug, parent, replyOnUser }) => {
@@ -33,9 +37,31 @@ const CommentsContainer = ({
     });
 
   /**
-   * [`comments` 배열에 새로운 댓글 추가하는 함수]
-   *
-   * [parent] `null` = 최상위 댓글, `_id` 값이 들어가면 해당 댓글의 하위 댓글로 간주됨
+   * [댓글 내용을 업데이트하는 작업을 수행, `updateComment` 함수를 호출]
+   */
+  const { mutate: mutateUpdateComment } = useMutation({
+    mutationFn: ({ token, desc, commentId }) => {
+      return updateComment({ token, desc, commentId });
+    },
+    onSuccess: () => {
+      toast.success('댓글이 성공적으로 업데이트되었습니다.');
+
+      /**
+       * 캐시된 데이터를 무효화(invalidate)하고 다시 불러오는 데 사용
+       * 댓글이 업데이트된 후에 ['blog', postSlug] 쿼리를 무효화하여
+       * 해당 블로그 게시물에 대한 정보를 다시 가져올 수 있도록 함
+       */
+      queryClient.invalidateQueries(['blog', postSlug]);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
+  /**
+   * [댓글을 추가하는 핸들러 함수]
+   * [parent] `null` = 최상위 댓글, `_id` 값이 들어가면 해당 댓글의 하위 댓글로 간주됨 /
    * [replyOnUser] `null` = 직접 게시물에 달린 댓글, `_id` 값이 들어가면 해당 사용자의 댓글에 답변하는 것으로 간주됨
    */
   const addCommentHandler = (value, parent = null, replyOnUser = null) => {
@@ -46,27 +72,20 @@ const CommentsContainer = ({
       token: userState.userInfo.token,
       slug: postSlug,
     });
-    setAffectedComment(null);
+    setAffectedComment(null); // 댓글 추가 후 상태 초기화
   };
 
   /**
-   * [수정한 내용을 기존 `comments` 배열에 추가하는 함수]
-   *
-   * `value`는 새로운 댓글 내용, `commentId`는 해당 댓글의 고유 식별자
+   * [댓글을 수정하는 핸들러 함수]
+   * [value] 수정된 댓글 내용 /
+   * [commentId] 어떤 댓글을 업데이트할지 식별하는데 사용됨
    */
   const updateCommentHandler = (value, commentId) => {
-    // const updatedComments = comments.map((comment) => {
-    //   if (comment._id === commentId) {
-    //     // 기존 댓글의 내용을 유지하면서 desc 속성을 새로운 value로 업데이트
-    //     return { ...comment, desc: value };
-    //   }
-
-    //   // comment._id와 commentId가 일치하지 않으면
-    //   // 해당 댓글은 변경하지 않고 원래 상태 그대로를 유지
-    //   return comment;
-    // });
-
-    // setComments(updatedComments);
+    mutateUpdateComment({
+      token: userState.userInfo.token,
+      desc: value,
+      commentId,
+    });
     setAffectedComment(null);
   };
 

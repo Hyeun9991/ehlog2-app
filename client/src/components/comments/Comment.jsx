@@ -156,7 +156,7 @@ const Comment = ({
           </div>
         )}
 
-        {/* 댓글 폼 */}
+        {/* 답글 폼 */}
         {isReplying && (
           <CommentForm
             btnLabel="답글 달기"
