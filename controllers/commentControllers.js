@@ -51,4 +51,26 @@ const updateComment = async (req, res, next) => {
   }
 };
 
-export { createComment, updateComment };
+// DELETE /api/comments/:commentId
+const deleteComment = async (req, res, next) => {
+  try {
+    // 요청 파라미터에서 commentId를 사용하여 댓글을 찾고 삭제
+    const comment = await Comment.findByIdAndDelete(req.params.commentId);
+
+    // 메인 댓글의 답 댓글도 모두 삭제
+    await Comment.deleteMany({ parent: comment._id });
+
+    if (!comment) {
+      const error = new Error('댓글을 찾을 수 없습니다.');
+      return next(error);
+    }
+
+    return res.json({
+      message: '댓글을 성공적으로 삭제했습니다.',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { createComment, updateComment, deleteComment };

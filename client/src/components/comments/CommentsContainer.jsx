@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createNewComment, updateComment } from '../../services/index/comments';
+import {
+  createNewComment,
+  deleteComment,
+  updateComment,
+} from '../../services/index/comments';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 
@@ -60,6 +64,23 @@ const CommentsContainer = ({
   });
 
   /**
+   * [댓글을 삭제하는 작업을 수행, `deleteComment` 함수를 호출]
+   */
+  const { mutate: mutateDeleteComment } = useMutation({
+    mutationFn: ({ token, commentId }) => {
+      return deleteComment({ token, commentId });
+    },
+    onSuccess: () => {
+      toast.success('댓글이 성공적으로 삭제 되었습니다.');
+      queryClient.invalidateQueries(['blog', postSlug]);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
+  /**
    * [댓글을 추가하는 핸들러 함수]
    * [parent] `null` = 최상위 댓글, `_id` 값이 들어가면 해당 댓글의 하위 댓글로 간주됨 /
    * [replyOnUser] `null` = 직접 게시물에 달린 댓글, `_id` 값이 들어가면 해당 사용자의 댓글에 답변하는 것으로 간주됨
@@ -90,16 +111,14 @@ const CommentsContainer = ({
   };
 
   /**
-   * [`commentId`에 해당하는 댓글을 삭제하는 함수]
-   *
-   * `commentId`는 해당 댓글의 고유 식별자
+   * [댓글을 삭제하는 핸들러 함수]
+   * [commentId] 어떤 댓글을 업데이트할지 식별하는데 사용됨
    */
   const deleteCommentHandler = (commentId) => {
-    // comments 배열에서 commentId와 일치하지 않는 댓글만 선택해서 새로운 배열을 만듦
-    // const updatedComments = comments.filter((comment) => {
-    //   return comment._id !== commentId;
-    // });
-    // setComments(updatedComments);
+    mutateDeleteComment({
+      token: userState.userInfo.token,
+      commentId,
+    });
   };
 
   /**
