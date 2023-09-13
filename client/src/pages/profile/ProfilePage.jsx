@@ -93,7 +93,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <Layout className="flex items-center justify-center min-h-screen">
+    <Layout className="flex items-center justify-center min-h-screen bg-bgColor-light dark:bg-bgColor-dark">
       <section className="relative flex flex-col sm:w-[320px] sm:px-0 items-center justify-center gap-4 main-container">
         {/* <h1 className="mb-2 title-xl">프로필</h1> */}
         <ProfilePicture avatar={profileData?.avatar} />

@@ -6,9 +6,7 @@ const Layout = ({ children, className }) => {
   return (
     <div>
       <Header />
-      <main className={`${className} pt-[44px] pb-10 dark:bg-bgColor-dark `}>
-        {children}
-      </main>
+      <main className={`${className} pt-[44px] pb-10`}>{children}</main>
       <Footer />
     </div>
   );

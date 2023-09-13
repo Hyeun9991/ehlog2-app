@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { getSinglePosts } from '../../services/index/posts.js';
+import { getAllPosts, getSinglePosts } from '../../services/index/posts.js';
 import Layout from '../../components/layout/Layout.jsx';
 import BreadCrumbs from '../../components/BreadCrumbs.jsx';
 import images from '../../constants/images.js';
@@ -17,6 +17,8 @@ import ArticleDetailSkeleton from './components/ArticleDetailSkeleton.jsx';
 import ErrorMessage from '../../components/ErrorMessage.jsx';
 import CommentsContainer from '../../components/comments/CommentsContainer.jsx';
 import { useSelector } from 'react-redux';
+import SuggestedPosts from './container/SuggestedPosts.jsx';
+import SocialShareButtons from '../../components/SocialShareButton.jsx';
 
 const ArticleDetailPage = () => {
   const { slug } = useParams();
@@ -44,17 +46,22 @@ const ArticleDetailPage = () => {
     },
   });
 
+  const { data: postsData } = useQuery({
+    queryFn: () => getAllPosts(),
+    queryKey: ['posts'],
+  });
+
   return (
-    <Layout>
+    <Layout className="bg-bgColor-light dark:bg-bgColor-dark">
       {isLoading ? (
         <ArticleDetailSkeleton />
       ) : isError ? (
         <ErrorMessage message="게시물 세부정보를 가져올 수 없습니다." />
       ) : (
-        <section className="min-h-screen py-10 main-container">
-          <article className="flex flex-col flex-1 gap-3">
+        <section className="container flex flex-col max-w-5xl mx-auto mt-5 lg:flex-row lg:gap-x-6 lg:items-start">
+          <article className="flex flex-col gap-3 main-container">
             <BreadCrumbs data={breadCrumbsData} />
-            <div className="w-full h-[50vh]">
+            <div className="w-full h-[400px]">
               <img
                 src={
                   data?.photo
@@ -79,13 +86,34 @@ const ArticleDetailPage = () => {
             <div className="mt-3 text-sm prose-sm prose sm:prose-base text-textColor-light/90">
               {body}
             </div>
+            <CommentsContainer
+              className="mt-10 "
+              comments={data?.comments}
+              logginedUserId={userState?.userInfo?._id}
+              postSlug={slug}
+            />
           </article>
-          <CommentsContainer
-            className="mt-10"
-            comments={data?.comments}
-            logginedUserId={userState?.userInfo?._id}
-            postSlug={slug}
-          />
+
+          <div className="flex flex-col flex-1 gap-6 main-container">
+            {/* 추천 게시물 & 추천 태그*/}
+            <div>
+              <SuggestedPosts
+                header="추천 포스터"
+                posts={postsData}
+                tags={data?.tags}
+                className="mt-10 lg:mt-0 lg:max-w-xs"
+              />
+            </div>
+
+            {/* 공유 */}
+            <div>
+              <h2 className="flex-1 mb-4 text-xs additional-text">공유하기</h2>
+              <SocialShareButtons
+                url={encodeURI(window.location.href)}
+                title={encodeURIComponent(data?.title)}
+              />
+            </div>
+          </div>
         </section>
       )}
     </Layout>

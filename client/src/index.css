@@ -9,7 +9,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: suit;
-  background-color: #fafafa;
+  background-color: #000000;
 }
 
 @layer components {
@@ -30,6 +30,9 @@ body {
   }
   .title-xl {
     @apply text-lg font-bold sm:text-xl text-textColor-light;
+  }
+  .title-lg {
+    @apply text-base font-bold sm:text-lg text-textColor-light;
   }
 
   /* Hover Effect */

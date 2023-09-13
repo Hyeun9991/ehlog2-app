@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const BreadCrumbs = ({ data }) => {
   return (
-    <nav className="flex items-center overflow-x-auto whitespace-normal">
+    <nav className="flex items-center mb-1 overflow-x-auto whitespace-normal">
       <ul className="flex">
         {data.map((item, index) => (
           <li

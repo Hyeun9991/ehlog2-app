@@ -64,7 +64,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Layout className="flex items-center justify-center min-h-screen">
+    <Layout className="flex items-center justify-center min-h-screen bg-bgColor-light dark:bg-bgColor-dark">
       <section className="flex flex-col items-center justify-center gap-4 main-container">
         <div className="flex flex-col items-center gap-2">
           <Link to="/" className="mb-3">

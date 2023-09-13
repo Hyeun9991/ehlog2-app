@@ -19,7 +19,7 @@ const Articles = () => {
   return (
     <section className="px-3">
       <p className="flex-1 mb-6 text-xs additional-text">새로운 포스터</p>
-      <div className="flex ">
+      <div className="flex flex-col gap-10">
         {isLoading ? (
           <ArticleCardSkeleton />
         ) : isError ? (
