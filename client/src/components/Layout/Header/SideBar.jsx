@@ -79,6 +79,15 @@ const SideBar = () => {
             >
               프로필
             </button>
+            {userState?.userInfo?.admin && (
+              <button
+                type="button"
+                className="hover-text"
+                onClick={() => navigate('/admin')}
+              >
+                관리자 대시보드
+              </button>
+            )}
             <button
               type="button"
               className="font-semibold text-red-500 opacity-100 hover-text"

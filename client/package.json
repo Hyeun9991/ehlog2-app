@@ -12,6 +12,7 @@
     "@tiptap/pm": "^2.1.8",
     "@tiptap/react": "^2.1.8",
     "@tiptap/starter-kit": "^2.1.8",
+    "@uidotdev/usehooks": "^2.2.0",
     "axios": "^1.5.0",
     "html-react-parser": "^4.2.2",
     "react": "^18.2.0",
@@ -53,6 +54,7 @@
   "proxy": "http://localhost:8080/",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@tailwindcss/typography": "^0.5.10"
+    "@tailwindcss/typography": "^0.5.10",
+    "daisyui": "^3.7.3"
   }
 }
