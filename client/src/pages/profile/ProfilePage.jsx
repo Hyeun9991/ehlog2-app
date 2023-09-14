@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Layout from '../../components/layout/Layout';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -23,7 +23,6 @@ const ProfilePage = () => {
   const {
     data: profileData, // 가져온 프로필 데이터
     isLoading: profileIsLoading, // 데이터 로딩 중 여부
-    error: profileError, // 데이터 가져오기 중 발생한 오류
   } = useQuery({
     queryFn: () => {
       // getUserProfile 함수를 호출하여 사용자 프로필 데이터를 가져오는 쿼리 실행
@@ -73,11 +72,13 @@ const ProfilePage = () => {
       email: '',
       password: '',
     },
-    values: {
-      // 프로필 데이터 로딩 중이면 빈 문자열
-      name: profileIsLoading ? '' : profileData.name,
-      email: profileIsLoading ? '' : profileData.email,
-    },
+    values: useMemo(() => {
+      return {
+        // 프로필 데이터 로딩 중이면 빈 문자열
+        name: profileIsLoading ? '' : profileData.name,
+        email: profileIsLoading ? '' : profileData.email,
+      };
+    }, [profileData?.email, profileData?.name, profileIsLoading]),
     mode: 'onChange',
   });
 
