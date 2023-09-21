@@ -174,14 +174,53 @@ const getPost = async (req, res, next) => {
 // GET /api/posts
 const getAllPosts = async (req, res, next) => {
   try {
-    const posts = await Post.find({}).populate([
-      {
-        path: 'user',
-        select: ['avatar', 'name', 'verified'],
-      },
-    ]);
+    const filter = req.query.searchKeyword; // 클라이언트로부터 받은 검색어
+    let where = {};
 
-    res.json(posts);
+    // 만약 검색어가 존재한다면, 검색어를 포함하는 제목을 찾음
+    if (filter) {
+      where.title = { $regex: filter, $options: 'i' };
+    }
+
+    // 검색 조건을 기반으로 데이터베이스에서 게시물을 찾음
+    let query = Post.find(where);
+
+    // 페이지 및 페이지 크기 관련 변수 설정
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * pageSize;
+
+    // 전체 게시물 수 계산
+    const total = await Post.countDocuments();
+    const pages = Math.ceil(total / pageSize);
+
+    // 요청된 페이지가 존재하지 않으면 오류를 반환
+    if (page > pages) {
+      const error = new Error('페이지를 찾을 수 없습니다.');
+      return next(error);
+    }
+
+    // 게시물 쿼리 실행 및 관련 사용자 정보 팝업레이션
+    const result = await query
+      .skip(skip)
+      .limit(pageSize)
+      .populate([
+        {
+          path: 'user',
+          select: ['avatar', 'name', 'verified'],
+        },
+      ]);
+
+    // 응답 헤더에 필터, 총 게시물 수 및 페이지 관련 정보 추가
+    res.header({
+      'x-filter': encodeURIComponent(filter), // 한글 검색어를 인코딩하여 응답 헤더에 추가
+      'x-totalcount': JSON.stringify(total),
+      'x-currentpage': JSON.stringify(page),
+      'x-pagesize': JSON.stringify(pageSize),
+      'x-totalpagecount': JSON.stringify(pages),
+    });
+
+    return res.json(result);
   } catch (error) {
     next(error);
   }

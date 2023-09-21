@@ -17,7 +17,7 @@ const Articles = () => {
   });
 
   return (
-    <section className="px-3">
+    <section className="mx-3">
       <p className="flex-1 mb-6 text-xs additional-text">새로운 포스터</p>
       <div className="flex flex-col gap-10">
         {isLoading ? (
@@ -25,7 +25,7 @@ const Articles = () => {
         ) : isError ? (
           <ErrorMessage message="게시물 데이터를 가져올 수 없습니다." />
         ) : (
-          data.map((post) => <ArticleCard key={post._id} post={post} />)
+          data?.data.map((post) => <ArticleCard key={post._id} post={post} />)
         )}
       </div>
     </section>

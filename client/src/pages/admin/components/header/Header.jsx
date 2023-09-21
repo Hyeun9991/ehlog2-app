@@ -1,11 +1,11 @@
+import { useWindowSize } from '@uidotdev/usehooks';
 import React, { useEffect, useState } from 'react';
+import { IoIosCreate, IoMdSettings } from 'react-icons/io';
+import { IoCloseOutline, IoMenuOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { images } from '../../../../constants';
-import { IoCloseOutline, IoMenuOutline } from 'react-icons/io5';
-import { IoIosCreate, IoMdSettings } from 'react-icons/io';
-import NavItemCollapse from './NavItemCollapse';
 import NavItem from './NavItem';
-import { useWindowSize } from '@uidotdev/usehooks';
+import NavItemCollapse from './NavItemCollapse';
 
 const MENU_ITEMS = [
   {
@@ -55,7 +55,7 @@ const Header = () => {
   }, [windowSize.width]);
 
   return (
-    <header className="bg-bgColor-light fixed top-0 left-0 flex h-[44px] w-full items-center justify-between px-4 py-1 lg:h-full lg:max-w-[250px] lg:flex-col lg:items-start lg:justify-start lg:p-0">
+    <header className="z-50 bg-bgColor-light fixed top-0 left-0 flex h-[44px] w-full items-center justify-between px-4 py-1 lg:h-full lg:max-w-[250px] lg:flex-col lg:items-start lg:justify-start lg:p-0">
       {/* 로고 */}
       <Link to="/">
         <img
@@ -83,7 +83,7 @@ const Header = () => {
           />
 
           {/* 사이드바 */}
-          <div className="fixed top-0 bottom-0 right-0 z-50 w-2/3 sm:w-[300px] p-4 overflow-y-auto bg-[#f2f2f2] lg:static lg:h-full lg:w-full lg:p-6">
+          <div className="fixed top-0 bottom-0 right-0 z-50 w-2/3 sm:w-[300px] p-4 overflow-y-auto bg-white lg:static lg:h-full lg:w-full lg:p-6">
             <Link to="/">
               <img
                 src={images.BlackSmallLogo}

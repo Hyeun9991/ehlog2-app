@@ -51,7 +51,7 @@ body {
     @apply px-8 py-3 text-xs uppercase transition-all rounded-sm text-textColor-dark/90 hover:text-textColor-dark bg-bgColor-dark hover:px-9;
   }
   .secondary-button {
-    @apply px-5 py-2 text-xs uppercase transition-all rounded-sm text-textColor-dark/90 hover:text-textColor-dark bg-bgColor-dark hover:px-6;
+    @apply px-5 py-2 text-xs uppercase transition-all rounded-sm text-textColor-dark/90 hover:text-textColor-dark bg-bgColor-dark;
   }
   .active-button {
     @apply px-2.5 py-1 text-xs uppercase transition-all rounded-sm text-textColor-dark/90 hover:text-textColor-dark bg-bgColor-dark hover:px-3;

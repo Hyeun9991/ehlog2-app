@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { images, stables } from '../../constants';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import CommentForm from './CommentForm';
+import { TbMessageCircle2 } from 'react-icons/tb';
 
 const Comment = ({
   comment,
@@ -56,7 +57,7 @@ const Comment = ({
       />
       <div className="flex flex-col flex-1">
         {/* 유저 정보 */}
-        <div className="flex items-center gap-1 text-xs">
+        <div className="flex flex-wrap items-center gap-1 text-xs">
           <h5 className="font-semibold">{comment.user.name}</h5>
           <span className="opacity-50">
             {new Date(comment.createdAt).toLocaleDateString('ko-KR', {
@@ -88,12 +89,11 @@ const Comment = ({
           {/* 답글 달기 버튼 */}
           {isUserLoggined && (
             <button
-              className="text-xs font-semibold transition-all opacity-50 hover:opacity-100"
               onClick={() =>
                 setAffectedComment({ type: 'replying', _id: comment._id })
               }
             >
-              <span>답글 달기</span>
+              <TbMessageCircle2 className="text-lg transform scale-x-[-1]" />
             </button>
           )}
 
@@ -109,7 +109,7 @@ const Comment = ({
                 </span>
               ) : (
                 <HiOutlineDotsHorizontal
-                  className="hidden transition-all opacity-50 cursor-pointer group-hover:block hover:opacity-100"
+                  className="hidden cursor-pointer group-hover:block hover:opacity-100"
                   onClick={handleClick}
                 />
               )}

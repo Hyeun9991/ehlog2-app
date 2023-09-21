@@ -1,24 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getAllPosts, getSinglePosts } from '../../services/index/posts.js';
-import Layout from '../../components/layout/Layout.jsx';
-import BreadCrumbs from '../../components/BreadCrumbs.jsx';
-import images from '../../constants/images.js';
-import stables from '../../constants/stables.js';
-import { generateHTML } from '@tiptap/html';
 import Bold from '@tiptap/extension-bold';
 import Document from '@tiptap/extension-document';
+import Italic from '@tiptap/extension-italic';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
-import Italic from '@tiptap/extension-italic';
+import { generateHTML } from '@tiptap/html';
 import parse from 'html-react-parser';
-import ArticleDetailSkeleton from './components/ArticleDetailSkeleton.jsx';
-import ErrorMessage from '../../components/ErrorMessage.jsx';
-import CommentsContainer from '../../components/comments/CommentsContainer.jsx';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import SuggestedPosts from './container/SuggestedPosts.jsx';
+import { Link, useParams } from 'react-router-dom';
+import BreadCrumbs from '../../components/BreadCrumbs.jsx';
+import ErrorMessage from '../../components/ErrorMessage.jsx';
 import SocialShareButtons from '../../components/SocialShareButton.jsx';
+import CommentsContainer from '../../components/comments/CommentsContainer.jsx';
+import Layout from '../../components/layout/Layout.jsx';
+import images from '../../constants/images.js';
+import stables from '../../constants/stables.js';
+import { getAllPosts, getSinglePosts } from '../../services/index/posts.js';
+import ArticleDetailSkeleton from './components/ArticleDetailSkeleton.jsx';
+import SuggestedPosts from './container/SuggestedPosts.jsx';
 
 const ArticleDetailPage = () => {
   const { slug } = useParams();
@@ -52,7 +52,7 @@ const ArticleDetailPage = () => {
   });
 
   return (
-    <Layout className="bg-bgColor-light dark:bg-bgColor-dark">
+    <Layout className="px-3 bg-bgColor-light dark:bg-bgColor-dark">
       {isLoading ? (
         <ArticleDetailSkeleton />
       ) : isError ? (
@@ -61,7 +61,7 @@ const ArticleDetailPage = () => {
         <section className="container flex flex-col max-w-5xl mx-auto mt-5 lg:flex-row lg:gap-x-6 lg:items-start">
           <article className="flex flex-col gap-3 main-container">
             <BreadCrumbs data={breadCrumbsData} />
-            <div className="w-full h-[400px]">
+            <div className="w-full h-[250px] sm:h-[350px] md:h-[400px]">
               <img
                 src={
                   data?.photo
@@ -99,7 +99,7 @@ const ArticleDetailPage = () => {
             <div>
               <SuggestedPosts
                 header="추천 포스터"
-                posts={postsData}
+                posts={postsData?.data}
                 tags={data?.tags}
                 className="mt-10 lg:mt-0 lg:max-w-xs"
               />

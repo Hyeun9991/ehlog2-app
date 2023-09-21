@@ -29,15 +29,15 @@ const HomeHeader = () => {
         {/* Logo */}
         <Link to="/">
           <img src={images.BlackLogo} alt="logo" className="hover-logo" />
-          <div className="ml-3 text-textColor-light">
-            <p className="logo-text">EUNHYE, eunhye ·</p>
-            <p className="text-sm additional-text">
+          <div className="text-textColor-light">
+            <p className="ml-3 leading-3 logo-text">EUNHYE, eunhye ·</p>
+            {/* <p className="text-sm additional-text">
               Blog on Frontend Developer
-            </p>
+            </p> */}
           </div>
         </Link>
         {/* Menu */}
-        <div className="flex flex-col items-end gap-1 mx-3 mb-3 text-xs uppercase sm:text-sm">
+        <div className="flex flex-col items-end gap-1 mb-3 mr-3 text-xs uppercase sm:text-sm">
           <p className="mx-2 text-xs additional-text text-textColor-light">
             menu
           </p>

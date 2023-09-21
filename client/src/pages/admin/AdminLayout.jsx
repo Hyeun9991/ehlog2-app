@@ -1,10 +1,10 @@
-import React from 'react';
-import Header from './components/header/Header';
-import { Outlet, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { getUserProfile } from '../../services/index/users';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { getUserProfile } from '../../services/index/users';
+import Header from './components/header/Header';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const AdminLayout = () => {
   return (
     <div className="flex flex-col h-screen lg:flex-row bg-bgColor-light dark:bg-bgColor-dark">
       <Header />
-      <main className="flex-1 p-4 lg:ml-[250px] mt-[44px] lg:mt-0 lg:p-6 bg-bgColor-light dark:bg-bgColor-dark">
+      <main className="flex-1 p-4 lg:ml-[250px] mt-[44px] lg:mt-0 lg:p-6 dark:bg-bgColor-dark">
         <Outlet />
       </main>
     </div>
