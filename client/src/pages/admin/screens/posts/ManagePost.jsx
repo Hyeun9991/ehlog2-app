@@ -1,7 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Pagination from '../../../../components/Pagination';
 import { images, stables } from '../../../../constants';
 import { getAllPosts } from '../../../../services/index/posts';
+
+let isFirstRun = true;
 
 const ManagePost = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -17,14 +20,37 @@ const ManagePost = () => {
     queryKey: ['posts'],
   });
 
+  useEffect(() => {
+    // 게시물 데이터를 새로 고치는 것을 방지
+    if (isFirstRun) {
+      isFirstRun = false;
+      return;
+    }
+
+    // currentPage가 변경될 때마다 refetch 함수를 호출하여 데이터를 새로고침
+    refetch();
+  }, [refetch, currentPage]);
+
+  // 검색 키워드 입력 핸들러
   const searchKeywordHandler = (event) => {
     const { value } = event.target;
     setSearchKeyword(value);
   };
 
+  /**
+   * [검색어 제출 핸들러]
+   *
+   * [에러]
+   * 마지막 페이지에서 첫 번째 게시물을 검색할 때 아무것도 출력이 안됨
+   * 실제로는 검색이 되지만 페이지가 첫 번째 페이지로 변경이 되지 않음.
+   *
+   * [해결]
+   * 검색할때마다 현재 페이지를 재설정
+   */
   const submitSearchKeywordHandler = (event) => {
     event.preventDefault();
-    refetch();
+    setCurrentPage(1); // 검색 시 현재 페이지를 1로 설정
+    refetch(); // 데이터 새로 고침
   };
 
   return (
@@ -32,8 +58,8 @@ const ManagePost = () => {
       <h1 className="title-2xl">포스트 관리하기</h1>
       <div>
         <div className="flex flex-col gap-3">
+          {/* 검색어 입력창 */}
           <div className="flex flex-row justify-between w-full sm:mb-0">
-            {/* <h2 className="text-2xl leading-tight">Users</h2> */}
             <div className="flex justify-end w-full">
               <form
                 className="flex gap-3"
@@ -55,6 +81,8 @@ const ManagePost = () => {
               </form>
             </div>
           </div>
+
+          {/* 포스트 데이터 */}
           <div className="p-2 overflow-x-auto bg-white rounded">
             <div className="inline-block min-w-full overflow-hidden">
               <table className="min-w-full leading-normal">
@@ -180,64 +208,17 @@ const ManagePost = () => {
               </table>
             </div>
           </div>
-          <div className="flex justify-center w-full">
-            <div className="flex">
-              <button
-                type="button"
-                className="w-[28px] h-[28px] flex items-center justify-center text-xs font-semibold transition-all rounded-full text-textColor-light/90 hover:text-textColor-light hover:bg-black/5"
-              >
-                <svg
-                  width="9"
-                  fill="currentColor"
-                  height="9"
-                  className=""
-                  viewBox="0 0 1792 1792"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M1427 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z"></path>
-                </svg>
-              </button>
-              <button
-                type="button"
-                className="w-[28px] h-[28px] flex items-center justify-center text-xs font-semibold transition-all rounded-full text-textColor-dark bg-bgColor-dark hover:bg-black hover:text-textColor-dark"
-              >
-                1
-              </button>
-              <button
-                type="button"
-                className="w-[28px] h-[28px] flex items-center justify-center text-xs font-semibold transition-all rounded-full text-textColor-light/90 hover:text-textColor-light hover:bg-black/5"
-              >
-                2
-              </button>
-              <button
-                type="button"
-                className="w-[28px] h-[28px] flex items-center justify-center text-xs font-semibold transition-all rounded-full text-textColor-light/90 hover:text-textColor-light hover:bg-black/5"
-              >
-                3
-              </button>
-              <button
-                type="button"
-                className="w-[28px] h-[28px] flex items-center justify-center text-xs font-semibold transition-all rounded-full text-textColor-light/90 hover:text-textColor-light hover:bg-black/5"
-              >
-                4
-              </button>
-              <button
-                type="button"
-                className="w-[28px] h-[28px] flex items-center justify-center text-xs font-semibold transition-all rounded-full text-textColor-light/90 hover:text-textColor-light hover:bg-black/5"
-              >
-                <svg
-                  width="9"
-                  fill="currentColor"
-                  height="8"
-                  className=""
-                  viewBox="0 0 1792 1792"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
+
+          {/* 페이지네이션 */}
+          {!isLoading && (
+            <Pagination
+              onPageChange={(page) => setCurrentPage(page)}
+              currentPage={currentPage}
+              totalPageCount={JSON.parse(
+                postsData?.headers?.['x-totalpagecount'],
+              )}
+            />
+          )}
         </div>
       </div>
     </div>

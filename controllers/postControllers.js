@@ -1,8 +1,8 @@
-import Post from '../models/Post';
-import Comment from '../models/Comment';
-import { uploadPicture } from '../middleware/uploadPictureMiddleware';
-import { fileRemover } from '../utils/fileRemover';
 import { v4 as uuidv4 } from 'uuid';
+import { uploadPicture } from '../middleware/uploadPictureMiddleware';
+import Comment from '../models/Comment';
+import Post from '../models/Post';
+import { fileRemover } from '../utils/fileRemover';
 
 // POST /api/posts
 const createPost = async (req, res, next) => {
@@ -191,7 +191,7 @@ const getAllPosts = async (req, res, next) => {
     const skip = (page - 1) * pageSize;
 
     // 전체 게시물 수 계산
-    const total = await Post.countDocuments();
+    const total = await Post.find(where).countDocuments();
     const pages = Math.ceil(total / pageSize);
 
     // 요청된 페이지가 존재하지 않으면 오류를 반환
@@ -214,10 +214,10 @@ const getAllPosts = async (req, res, next) => {
     // 응답 헤더에 필터, 총 게시물 수 및 페이지 관련 정보 추가
     res.header({
       'x-filter': encodeURIComponent(filter), // 한글 검색어를 인코딩하여 응답 헤더에 추가
-      'x-totalcount': JSON.stringify(total),
-      'x-currentpage': JSON.stringify(page),
-      'x-pagesize': JSON.stringify(pageSize),
-      'x-totalpagecount': JSON.stringify(pages),
+      'x-totalcount': JSON.stringify(total), // 총 게시물 수를 문자열로 변환하여 응답 헤더에 추가
+      'x-currentpage': JSON.stringify(page), // 현재 페이지 번호를 문자열로 변환하여 응답 헤더에 추가
+      'x-pagesize': JSON.stringify(pageSize), // 페이지 크기를 문자열로 변환하여 응답 헤더에 추가
+      'x-totalpagecount': JSON.stringify(pages), // 총 페이지 수를 문자열로 변환하여 응답 헤더에 추가
     });
 
     return res.json(result);
@@ -226,4 +226,4 @@ const getAllPosts = async (req, res, next) => {
   }
 };
 
-export { createPost, updatePost, deletePost, getPost, getAllPosts };
+export { createPost, deletePost, getAllPosts, getPost, updatePost };
